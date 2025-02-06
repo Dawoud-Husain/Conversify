@@ -5,7 +5,8 @@ import useSignup from "../../hooks/useSignup";
 
 const SignUp = () => {
 	const [inputs, setInputs] = useState({
-		fullName: "",
+		firstName: "",
+		lastName: "", 
 		username: "",
 		password: "",
 		confirmPassword: "",
@@ -33,14 +34,28 @@ const SignUp = () => {
 				<form onSubmit={handleSubmit}>
 					<div>
 						<label className='label p-2'>
-							<span className='text-base label-text'>Full Name</span>
+							<span className='text-base label-text'>First Name</span>
 						</label>
 						<input
 							type='text'
-							placeholder='John Doe'
+							placeholder='John'
 							className='w-full input input-bordered  h-10'
-							value={inputs.fullName}
-							onChange={(e) => setInputs({ ...inputs, fullName: e.target.value })}
+							value={inputs.firstName}
+							onChange={(e) => setInputs({ ...inputs, firstName: e.target.value })}
+						/>
+
+					</div>
+					<div>
+					<label className='label p-2'>
+							<span className='text-base label-text'>Last Name</span>
+						</label>
+ 
+					<input
+							type='text'
+							placeholder='Doe'
+							className='w-full input input-bordered  h-10'
+							value={inputs.lastName}
+							onChange={(e) => setInputs({ ...inputs, lastName: e.target.value })}
 						/>
 					</div>
 
