@@ -2,10 +2,12 @@ import { useState } from "react";
 import { IoSearchSharp } from "react-icons/io5";
 import useConversation from "../../zustand/useConversation";
 import useGetConversations from "../../hooks/useGetConversations";
+import useGetProfile from "../../hooks/useGetProfile";
 import toast from "react-hot-toast";
 
 const SearchInput = () => {
 	const [search, setSearch] = useState("");
+	const {profile} = useGetProfile();
 	const { setSelectedConversation } = useConversation();
 	const { conversations } = useGetConversations();
 
@@ -25,6 +27,8 @@ const SearchInput = () => {
 	};
 	return (
 		<form onSubmit={handleSubmit} className='flex items-center gap-2'>
+			{/* <h2>{profile}</h2> */}
+
 			<input
 				type='text'
 				placeholder='Search…'
