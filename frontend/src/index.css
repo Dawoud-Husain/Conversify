@@ -19,9 +19,11 @@ body {
 }
 
 body.login-page {
-	/* Photo by Leone Venter on Unsplash: 
-	https://unsplash.com/photos/magic-keyboard-beside-mug-and-click-pen-VieM9BdZKFo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash */
-    background: url('../dist/loginbg.jpg') no-repeat center center fixed;
+    background-color: #f1f1f1; /* Fallback color */
+    background-image: url('../dist/loginbg.jpg'); /* Make sure the file path is correct */
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
     background-size: cover;
 }
 

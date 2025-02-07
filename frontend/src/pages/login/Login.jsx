@@ -19,13 +19,18 @@ const Login = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		await login(username, password);
+		try {
+            await login(username, password);
+        } catch (error) {
+            console.error("Login error:", error);
+        }
+		// await login(username, password);
 	};
 
 	return (
 		<div className='flex flex-col items-center justify-center min-w-96 mx-auto'>
 			<h1 className='text-5xl font-semibold text-center mb-4' style={{ color: 'var(--dark-yellow-color)', fontFamily: 'var(--logo-font)' }}>
-                Conversify
+                CONVERSIFY
             </h1>
 			<br></br>
 			<div className='w-full p-6 rounded-lg shadow-2xl bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0'
