@@ -9,6 +9,8 @@ const SignUp = () => {
 		lastName: "", 
 		username: "",
 		password: "",
+		email: "", 
+		phoneNumber: "", 
 		confirmPassword: "",
 		gender: "",
 	});
@@ -56,6 +58,30 @@ const SignUp = () => {
 							className='w-full input input-bordered  h-10'
 							value={inputs.lastName}
 							onChange={(e) => setInputs({ ...inputs, lastName: e.target.value })}
+						/>
+					</div>
+					<div>
+						<label className='label p-2 '>
+							<span className='text-base label-text'>Email</span>
+						</label>
+						<input
+							type='text'
+							placeholder='johndoe@gmail.com'
+							className='w-full input input-bordered h-10'
+							value={inputs.email}
+							onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
+						/>
+					</div>
+					<div>
+						<label className='label p-2 '>
+							<span className='text-base label-text'>Phone Number</span>
+						</label>
+						<input
+							type='text'
+							placeholder='123-456-789'
+							className='w-full input input-bordered h-10'
+							value={inputs.phoneNumber}
+							onChange={(e) => setInputs({ ...inputs, phoneNumber: e.target.value })}
 						/>
 					</div>
 
