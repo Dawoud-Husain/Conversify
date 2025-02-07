@@ -2,11 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+	/* setting brand colours/themes to use throughout the react code */
+    --light-yellow-color: #F1F2E3;
+	--dark-yellow-color: #414503;
+	--darker-yellow-color: #252804;
+	/* --logo-font: "Grenze Gotisch", serif; */
+	--logo-font: "Bungee Shade", serif;
+}
+
 body {
-	background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("/bg.png");
+	background: white;
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
+}
+
+body.login-page {
+	/* Photo by Leone Venter on Unsplash: 
+	https://unsplash.com/photos/magic-keyboard-beside-mug-and-click-pen-VieM9BdZKFo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash */
+    background: url('../dist/loginbg.jpg') no-repeat center center fixed;
+    background-size: cover;
 }
 
 /* dark mode looking scrollbar */
@@ -33,6 +49,11 @@ body {
 	transform: translate3d(0, 0, 0);
 	backface-visibility: hidden;
 	perspective: 1000px;
+}
+
+.custom-input {
+    background-color: var(--darker-yellow-color);
+	color: whitesmoke
 }
 
 @keyframes shake {
