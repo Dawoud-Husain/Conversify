@@ -1,37 +1,31 @@
-# MERN Stack Project: Build and Deploy a Real Time Chat App | JWT, Socket.io
 
-![Demo App](https://i.ibb.co/fXmZdnz/Screenshot-10.png)
 
-[Video Tutorial on Youtube](https://youtu.be/HwCqsOis894)
+Meetings:
 
-Some Features:
+Jan 28 (In Person)
+- Participants: Everyone Present (Dawoud,Jake, Eddie, Ike, Naza)
+- Summary: Selected user stories and created issues to assign to each team member
+- Major Issues: None
 
--   🌟 Tech stack: MERN + Socket.io + TailwindCSS + Daisy UI
--   🎃 Authentication && Authorization with JWT
--   👾 Real-time messaging with Socket.io
--   🚀 Online user status (Socket.io and React Context)
--   👌 Global state management with Zustand
--   🐞 Error handling both on the server and on the client
--   ⭐ At the end Deployment like a pro for FREE!
--   ⏳ And much more!
+Feb 6: (Virtual)
+- Participants: Everyone Present (Dawoud,Jake, Eddie, Ike, Naza)
+- Summary: Discussed methods to store images, discussed about the react routes (backend) and front-end implementation
+- Major Issues: None
 
-### Setup .env file
 
-```js
-PORT=...
-MONGO_DB_URI=...
-JWT_SECRET=...
-NODE_ENV=...
-```
 
-### Build the app
+Wiki
 
-```shell
-npm run build
-```
+This is the first of the four sprints for our wiki, in this sprint we want to 
 
-### Start the app
+Selected User Stories for Sprint 
 
-```shell
-npm start
-```
+
+As a user, I want to be able to display my personal and professional information on a dedicated page, so that potential clients and collaborators can identify me and contact me.
+
+
+Post Project Mortem 
+
+
+There was some confusion for when the first sprint was due, our team thought that it would be due on the 17th but it was due on the 11th, since we assumed the initial system design was not apart of sprint 1. Although this did not have a major impact it is paramount for our team to be more certain of due dates proper ot the beginning of hte sprint for better planning
+Ther
