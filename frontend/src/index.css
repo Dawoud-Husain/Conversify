@@ -8,21 +8,23 @@
     --light-yellow: #F1F2E3;
 	--dark-yellow: #353906;
 	--darker-yellow: #4d4e3b;
+	--off-white-bg: #f1f1f1;
 	/* --logo-font: "Grenze Gotisch", serif; */
 	--logo-font: "Rammetto One", serif;
 	--header-font: "Roboto", serif;
+	height: 100%;
 }
 
 body {
-	background: white;
+	background: var(--off-white-bg);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
 }
 
 body.login-page {
-    background-color: #f1f1f1; /* Fallback color */
-    background-image: url('../dist/loginbg.jpg'); /* Make sure the file path is correct */
+    background-color: var(--off-white-bg); /* Fallback color */
+    background-image: url('../public/loginbg.jpg'); /* Make sure the file path is correct */
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
@@ -55,6 +57,22 @@ body.login-page {
 	perspective: 1000px;
 }
 
+.navbar {
+    position: fixed; /* Keeps it fixed on the left */
+    left: 0; /* Ensures it stays on the left */
+    top: 0;
+    bottom: 0; /* Extends from top to bottom */
+    width: 20rem; /* Equivalent to w-64 in Tailwind */
+    height: 100vh; /* Full height of the viewport */
+    
+    background-color: var(--off-white-bg); /* Adjust as needed */
+    
+    border-right: 2px solid var(--darker-yellow); /* Right border */
+    /* border-top: 2px solid rebeccapurple; /* Top border */
+    /*border-bottom: 5px solid rebeccapurple; /* Bottom border */
+}
+
+
 .custom-input {
     background-color: var(--dark-yellow);
 	color: whitesmoke
@@ -69,6 +87,44 @@ body.login-page {
 .btn-hover-darken:hover {
     background-color: #2c2d05; /* Darker shade of --darker-yellow */
 }
+
+.search-input {
+    border: 2px solid var(--darker-yellow); /* Adjust border width & color */
+    background-color: transparent; /* Removes background color */
+    color: var(--darker-yellow); /* Text color */
+    padding: 8px 12px; /* Adjust padding */
+    outline: none; /* Removes default focus outline */
+}
+
+.search-input::placeholder {
+    color: var(--darker-yellow); /* Change placeholder text color */
+    /* opacity: 1; /* Adjust opacity for better visibility */
+}
+
+/* Custom Search Button */
+.search-button {
+    background-color: var(--darker-yellow); /* Change button background color */
+    border: none; /* Remove default border */
+    width: 40px; /* Adjust button size */
+    height: 40px;
+    border-radius: 50%; /* Make it circular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out; /* Smooth hover effect */
+}
+
+.search-button:hover {
+    background-color: var(--dark-yellow); /* Lighter yellow on hover */
+}
+
+/* Custom Search Icon */
+.search-icon {
+    color: var(--light-yellow); /* Change icon color */
+    font-size: 1.5rem; /* Adjust icon size */
+}
+
 
 @keyframes shake {
 	10%,
