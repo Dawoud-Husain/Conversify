@@ -29,13 +29,13 @@ const Login = () => {
 
 	return (
 		<div className='flex flex-col items-center justify-center min-w-96 mx-auto'>
-			<h1 className='text-5xl font-semibold text-center mb-4' style={{ color: 'var(--dark-yellow-color)', fontFamily: 'var(--logo-font)' }}>
-                CONVERSIFY
+			<h1 className='text-5xl font-semibold text-center mb-4' style={{ color: 'var(--dark-yellow)', fontFamily: 'var(--logo-font)' }}>
+                Conversify
             </h1>
 			<br></br>
 			<div className='w-full p-6 rounded-lg shadow-2xl bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0'
 				 style={{ backgroundColor: "#EEEEEE" }}>	
-				<h1 className='text-3xl font-semibold text-center' style={{ color: 'var(--dark-yellow-color)' }}>
+				<h1 className='text-3xl font-semibold text-center' style={{ color: 'var(--dark-yellow)', fontFamily: 'var(--header-font)' }}>
 					Login
 				</h1>
 				<br></br>
@@ -43,7 +43,7 @@ const Login = () => {
 				<form onSubmit={handleSubmit}>
 					<div>
 						<label className='label p-2'>
-							<span className='text-base label-text' style={{ color: 'var(--darker-yellow-color)' }}>Username</span>
+							<span className='text-base label-text' style={{ color: 'var(--darker-yellow)' }}>Username</span>
 						</label>
 						<input
 							type='text'
@@ -56,7 +56,7 @@ const Login = () => {
 
 					<div>
 						<label className='label'>
-							<span className='text-base label-text' style={{ color: 'var(--darker-yellow-color)' }}>Password</span>
+							<span className='text-base label-text' style={{ color: 'var(--darker-yellow)' }}>Password</span>
 						</label>
 						<input
 							type='password'
@@ -66,12 +66,12 @@ const Login = () => {
 							onChange={(e) => setPassword(e.target.value)}
 						/>
 					</div>
-					<Link to='/signup' className='text-sm  hover:underline mt-2 inline-block' style={{ color: 'var(--darker-yellow-color)' }}>
+					<Link to='/signup' className='text-sm  hover:underline mt-2 inline-block' style={{ color: 'var(--light-grey)' }}>
 						{"Don't"} have an account?
 					</Link>
 
 					<div>
-						<button className='btn btn-block btn-sm mt-2' style={{ backgroundColor: 'var(--darker-yellow-color)' }} disabled={loading}>
+						<button className='btn btn-block btn-sm mt-2 btn-hover-darken' disabled={loading}>
 							{loading ? <span className='loading loading-spinner '></span> : "Login"}
 						</button>
 					</div>

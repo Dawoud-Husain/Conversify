@@ -4,11 +4,13 @@
 
 :root {
 	/* setting brand colours/themes to use throughout the react code */
-    --light-yellow-color: #F1F2E3;
-	--dark-yellow-color: #414503;
-	--darker-yellow-color: #252804;
+    --light-grey: #797a73;
+    --light-yellow: #F1F2E3;
+	--dark-yellow: #353906;
+	--darker-yellow: #4d4e3b;
 	/* --logo-font: "Grenze Gotisch", serif; */
-	--logo-font: "Bungee Shade", serif;
+	--logo-font: "Rammetto One", serif;
+	--header-font: "Roboto", serif;
 }
 
 body {
@@ -54,8 +56,18 @@ body.login-page {
 }
 
 .custom-input {
-    background-color: var(--darker-yellow-color);
+    background-color: var(--dark-yellow);
 	color: whitesmoke
+}
+
+.btn-hover-darken {
+    background-color: var(--darker-yellow);
+    color: var(--light-yellow);
+    transition: background-color 0.3s ease;
+}
+
+.btn-hover-darken:hover {
+    background-color: #2c2d05; /* Darker shade of --darker-yellow */
 }
 
 @keyframes shake {
