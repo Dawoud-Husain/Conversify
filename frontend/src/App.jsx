@@ -6,16 +6,17 @@ import SignUp from "./pages/signup/SignUp";
 import Profile from "./pages/profile/Profile";
 import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "./context/AuthContext";
+import Messages from "./components/messages/Messages";
 
 function App() {
 	const { authUser } = useAuthContext();
 	return (
 		<div className='p-4 h-screen flex items-center justify-center'>
 			<Routes>
-				<Route path='/' element={authUser ? <Profile /> : <Navigate to={"/login"} />} />
+				<Route path='/' element={authUser ? <Home /> : <Navigate to={"/login"} />} />
 				<Route path='/login' element={authUser ? <Navigate to='/' /> : <Login />} />
 				<Route path='/signup' element={authUser ? <Navigate to='/' /> : <SignUp />} />
-				<Route path='/messages' element={authUser ? <Navigate to='/' /> : <Home />} />
+				<Route path='/profile' element={authUser ? <Profile /> :<Navigate to='/' />} />
 			</Routes>
 			<Toaster />
 		</div>

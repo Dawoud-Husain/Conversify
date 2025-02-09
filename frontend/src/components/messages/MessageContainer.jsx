@@ -14,22 +14,52 @@ const MessageContainer = () => {
 	}, [setSelectedConversation]);
 
 	return (
-		<div className='md:min-w-[450px] flex flex-col'>
-			{!selectedConversation ? (
-				<NoChatSelected />
-			) : (
-				<>
-					{/* Header */}
-					<div className='bg-slate-500 px-4 py-2 mb-2'>
-						<span className='label-text'>To:</span>{" "}
-						<span className='text-gray-900 font-bold'>{selectedConversation.fullName}</span>
-					</div>
-					<Messages />
-					<MessageInput />
-				</>
-			)}
-		</div>
-	);
+        <div className="flex flex-col h-full w-full">
+            {!selectedConversation ? (
+                <NoChatSelected />
+            ) : (
+                <>
+                    {/* Header */}
+                    <div className="bg-gray-200 px-4 py-2 mb-2 flex items-center justify-between shadow-sm">
+                        <span className="text-gray-700 text-sm font-semibold">
+                            To: {selectedConversation.fullName || "Unknown User"}
+                        </span>
+                        <span className="text-gray-500 text-xs">
+                            {selectedConversation?.isOnline ? "Online" : "Offline"}
+                        </span>
+                    </div>
+
+                    {/* Messages */}
+                    <div className="flex-1 overflow-y-auto">
+                        <Messages />
+                    </div>
+
+                    {/* Input */}
+                    <div className="bg-gray-200 mt-2 px-4 py-3">
+                        <MessageInput />
+                    </div>
+                </>
+            )}
+        </div>
+    );
+
+	// return (
+	// 	<div className='md:min-w-[450px] flex flex-col'>
+	// 		{!selectedConversation ? (
+	// 			<NoChatSelected />
+	// 		) : (
+	// 			<>
+	// 				{/* Header */}
+	// 				<div className='bg-slate-500 px-4 py-2 mb-2'>
+	// 					<span className='label-text'>To:</span>{" "}
+	// 					<span className='text-gray-900 font-bold'>{selectedConversation.fullName}</span>
+	// 				</div>
+	// 				<Messages />
+	// 				<MessageInput />
+	// 			</>
+	// 		)}
+	// 	</div>
+	// );
 };
 export default MessageContainer;
 
