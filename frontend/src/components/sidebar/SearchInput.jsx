@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IoSearchSharp } from "react-icons/io5";
 import useConversation from "../../zustand/useConversation";
 import useGetConversations from "../../hooks/useGetConversations";
+import useGetProfile from "../../hooks/useGetProfile";
 import toast from "react-hot-toast";
 
 const SearchInput = () => {
@@ -16,7 +17,7 @@ const SearchInput = () => {
 			return toast.error("Search term must be at least 3 characters long");
 		}
 
-		const conversation = conversations.find((c) => c.fullName.toLowerCase().includes(search.toLowerCase()));
+		const conversation = conversations.find((c) => c.firstName.toLowerCase().includes(search.toLowerCase()));
 
 		if (conversation) {
 			setSelectedConversation(conversation);
@@ -25,6 +26,8 @@ const SearchInput = () => {
 	};
 	return (
 		<form onSubmit={handleSubmit} className='flex items-center gap-2'>
+			{/* <h2>{profile}</h2> */}
+
 			<input
 				type='text'
 				placeholder='Search…'

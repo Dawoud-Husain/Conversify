@@ -5,9 +5,12 @@ import useSignup from "../../hooks/useSignup";
 
 const SignUp = () => {
 	const [inputs, setInputs] = useState({
-		fullName: "",
+		firstName: "",
+		lastName: "", 
 		username: "",
 		password: "",
+		email: "", 
+		phoneNumber: "", 
 		confirmPassword: "",
 		gender: "",
 	});
@@ -33,14 +36,52 @@ const SignUp = () => {
 				<form onSubmit={handleSubmit}>
 					<div>
 						<label className='label p-2'>
-							<span className='text-base label-text'>Full Name</span>
+							<span className='text-base label-text'>First Name</span>
 						</label>
 						<input
 							type='text'
-							placeholder='John Doe'
+							placeholder='John'
 							className='w-full input input-bordered  h-10'
-							value={inputs.fullName}
-							onChange={(e) => setInputs({ ...inputs, fullName: e.target.value })}
+							value={inputs.firstName}
+							onChange={(e) => setInputs({ ...inputs, firstName: e.target.value })}
+						/>
+
+					</div>
+					<div>
+					<label className='label p-2'>
+							<span className='text-base label-text'>Last Name</span>
+						</label>
+ 
+					<input
+							type='text'
+							placeholder='Doe'
+							className='w-full input input-bordered  h-10'
+							value={inputs.lastName}
+							onChange={(e) => setInputs({ ...inputs, lastName: e.target.value })}
+						/>
+					</div>
+					<div>
+						<label className='label p-2 '>
+							<span className='text-base label-text'>Email</span>
+						</label>
+						<input
+							type='text'
+							placeholder='johndoe@gmail.com'
+							className='w-full input input-bordered h-10'
+							value={inputs.email}
+							onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
+						/>
+					</div>
+					<div>
+						<label className='label p-2 '>
+							<span className='text-base label-text'>Phone Number</span>
+						</label>
+						<input
+							type='text'
+							placeholder='123-456-789'
+							className='w-full input input-bordered h-10'
+							value={inputs.phoneNumber}
+							onChange={(e) => setInputs({ ...inputs, phoneNumber: e.target.value })}
 						/>
 					</div>
 

@@ -12,3 +12,30 @@ export const getUsersForSidebar = async (req, res) => {
 		res.status(500).json({ error: "Internal server error" });
 	}
 };
+
+export const getUserProfile = async (req, res) => {
+	try {
+		res.status(200).json(req.user);
+	} catch (error) {
+		console.error("Error in getUserProfile: ", error.message);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
+
+export const updateProfile = async (req, res) => {
+	try {
+		const username = req.user.username
+		const {updates } = req.body.profileData;
+
+		// Find user by username and only update the fields that are in the request body
+		const updatedUser = await User.findOneAndUpdate(
+			{ username },
+			{ $set: updates },
+			{ new: true }
+		);
+		res.status(200).json(updatedUser);
+	} catch (error) {
+		console.error("Error in updateProfile: ", error.message);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
