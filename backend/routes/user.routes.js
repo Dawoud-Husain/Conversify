@@ -6,7 +6,7 @@ import { updateProfile } from "../controllers/user.controller.js";
 const router = express.Router();
 
 router.get("/", protectRoute, getUsersForSidebar);
-router.get("/profile", protectRoute, getUserProfile);
+router.get("/profile/:id", protectRoute, getUserProfile);
 router.put("/profile", protectRoute, updateProfile);
 
 export default router;

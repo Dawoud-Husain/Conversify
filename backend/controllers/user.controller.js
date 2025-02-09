@@ -15,7 +15,12 @@ export const getUsersForSidebar = async (req, res) => {
 
 export const getUserProfile = async (req, res) => {
 	try {
-		res.status(200).json(req.user);
+		const { id: profileId } = req.params;
+		const profileUser = await User.findById(profileId).select("-password");
+		if (!profileUser){
+			res.status(404).json({ error: "User Not Found" });
+		}
+		res.status(200).json(profileUser);
 	} catch (error) {
 		console.error("Error in getUserProfile: ", error.message);
 		res.status(500).json({ error: "Internal server error" });
