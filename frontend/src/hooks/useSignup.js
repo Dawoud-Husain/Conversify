@@ -51,5 +51,22 @@ function handleInputErrors({ firstName, lastName, email, phoneNumber, username, 
 		return false;
 	}
 
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	if (!emailRegex.test(email)) {
+		toast.error("Invalid email format");
+		return false;
+	}
+
+	const phoneRegex = /^\d{10}$/;
+	if (!phoneRegex.test(phoneNumber)) {
+		toast.error("Phone number must be 10 digits");
+		return false;
+	}
+
+	if (username.length < 3) {
+		toast.error("Username must be at least 3 characters");
+		return false;
+	}
+
 	return true;
 }

@@ -8,7 +8,7 @@ const Login = () => {
 	useEffect(() => {
         document.body.classList.add("login-page");
         return () => {
-            document.body.classList.remove("login-page"); // Cleanup when leaving the page
+            document.body.classList.remove("login-page"); 
         };
     }, []);
 
