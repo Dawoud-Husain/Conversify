@@ -6,60 +6,62 @@ import { Cloudinary } from "@cloudinary/url-gen";
 const ProfileTest = () => {
   const { authUser, setAuthUser } = useAuthContext();
   const [imageUrl, setImageUrl] = useState("");
-  const [trueUrl, setTrueUrl] = useState("");
 
+  //This defines our Cloundinary collection (Allows us to upload to it)
   const cld = new Cloudinary({ cloud: { cloudName: "dddzvabhg" } });
 
-  const handleUploadSuccess = (error, result) => {
-    if (error) {
-      console.error("Upload Widget Error:", error);
-      return;
-    }
-
-    // now 'result' is the correct object
-    if (result.event === "success") {
-      setImageUrl(result.info.public_id);
-      setTrueUrl(result.info.secure_url);
+  //This calls our back-end to save the new profile picture URL to mongo
+  const saveProfilePicture = async (imageUrl) => {
+    try {
+      const response = await fetch(
+        "/api/profile/picture/update-profile-picture",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imageUrl, userId: authUser._id }),
+        }
+      );
+      const data = await response.json();
+      console.log("Profile picture updated!", data);
+    } catch (error) {
+      console.error("Error updating profile picture:", error);
     }
   };
 
-  //   const saveProfilePicture = async (imageUrl) => {
-  //     try {
-  //       const response = await fetch("/api/update-profile-picture", {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({ imageUrl, userId: authUser._id }), // Include user ID
-  //       });
-  //       const data = await response.json();
-  //       console.log("Profile picture updated:", data);
-  //     } catch (error) {
-  //       console.error("Error updating profile picture:", error);
-  //     }
-  //   };
+  //This is called if something is succesfully uploaded to Cloudinary
+  const handleUploadSuccess = async (error, result) => {
+    if (error) {
+      console.error("Upload error:", error);
+      return;
+    }
+    if (result.event === "success") {
+      setImageUrl(result.info.secure_url);
+      saveProfilePicture(result.info.secure_url);
+    }
+  };
 
   const openUploadWidget = () => {
     window.cloudinary.openUploadWidget(
       {
-        cloudName: "dddzvabhg", // Replace with your actual cloud name
-        uploadPreset: "chatapp", // Replace with your actual upload preset
-        sources: ["local", "url", "camera"], // Allow multiple sources for upload
-        multiple: false, // Allow only one file upload
-        cropping: true, // Enable cropping
-        croppingAspectRatio: 2, // Square aspect ratio
-        croppingDefaultSelectionRatio: 2, // Default to square
-        showAdvancedOptions: true, // Show advanced options
+        cloudName: "dddzvabhg",
+        uploadPreset: "chatapp",
+        sources: ["local", "url", "camera"],
+        multiple: false,
+        cropping: true,
+        croppingAspectRatio: 1,
+        croppingDefaultSelectionRatio: 1,
+        showSkipCropButton: false,
       },
       handleUploadSuccess
     );
   };
-
+  /* Allows uploading of profile picture for the current account. Will update the backend*/
   return (
     <div>
       <h1>Welcome, {authUser ? authUser.fullName : "Guest"}</h1>
       <div>
         <button onClick={openUploadWidget}>Upload Profile Picture</button>
-        <p>I am a test paa</p>
-        {trueUrl && <img src={trueUrl}></img>}
+        {imageUrl && <img src={imageUrl} width="100"></img>}
       </div>
     </div>
   );
