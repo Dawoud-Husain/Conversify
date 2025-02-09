@@ -22,7 +22,7 @@ const MessageContainer = () => {
                     {/* Header */}
                     <div className="bg-gray-200 px-4 py-2 mb-2 flex items-center justify-between shadow-sm">
                         <span className="text-gray-700 text-sm font-semibold">
-                            To: {selectedConversation.fullName || "Unknown User"}
+                            To: {selectedConversation.firstName + ' ' + selectedConversation.lastName || "Unknown User"}
                         </span>
                         <span className="text-gray-500 text-xs">
                             {selectedConversation?.isOnline ? "Online" : "Offline"}
