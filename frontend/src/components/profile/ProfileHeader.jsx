@@ -2,7 +2,7 @@ import { useAuthContext } from "../../context/AuthContext";
 
 const ProfileHeader = () => {
     const { authUser } = useAuthContext();
-    const fullName = authUser.fullName;
+    const fullName = authUser.firstName + " " + authUser.lastName;
     const username = authUser.username;
 
 	return (
@@ -12,7 +12,7 @@ const ProfileHeader = () => {
 
             <div className="mt-4 flex space-x-4">
                 {/* <button className="px -6 py-3 bg-yellow-200 text-gray-900 font-semibold rounded-md"> */}
-                <button className="btn w-44 h-8 px-8 font-semibold rounded-full btn-no-outline btn-no-outline:hover"
+                {/* <button className="btn w-44 h-8 px-8 font-semibold rounded-full btn-no-outline btn-no-outline:hover"
                         style={{ fontFamily: "var(--header-font)" }}>
                     Connect
                 </button>
@@ -20,7 +20,7 @@ const ProfileHeader = () => {
                 <button className="btn w-44 h-8 px-8 font-semibold rounded-full border-2 btn-outline btn-no-outline:hover"
                         style={{ fontFamily: "var(--header-font)" }}>
                     Message
-                </button>
+                </button> */}
 
 
             </div>

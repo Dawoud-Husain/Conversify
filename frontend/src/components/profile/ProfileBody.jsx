@@ -1,7 +1,7 @@
 const ProfileBody = () => {
 	return (
 		<div className="flex flex-col justify-between flex-grow h-full pb-24">
-			<div>
+			{/* <div>
 				<h2 className="text-lg font-semibold text-gray-900">COMPANY</h2>
 				<p className="text-gray-600">Microsoft Inc., Silicon Valley</p>
 			</div>
@@ -17,7 +17,7 @@ const ProfileBody = () => {
 			<div>
 				<h2 className="text-lg font-semibold text-gray-900">PREFERRED LANGUAGES</h2>
 				<p className="text-gray-600">English, Français, Español</p>
-			</div>
+			</div> */}
 		</div>
 	);
 };
