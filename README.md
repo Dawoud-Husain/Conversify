@@ -1,37 +1,83 @@
+```markdown
+# Conversify: A Real-time Chatting Application
 
+![MERN Stack](https://img.shields.io/badge/MERN-Stack-green.svg)
 
-Meetings:
+A modern real-time chatting application built with the **MERN** (MongoDB, Express, React, Node.js) stack.
 
-Jan 28 (In Person)
-- Participants: Everyone Present (Dawoud, Jake, Eddie, Ike, Naza)
-- Summary: Selected user stories and created issues to assign to each team member
-- Major Issues: None
+---
 
-Feb 6: (Virtual)
-- Participants: Everyone Present (Dawoud, Jake, Eddie, Ike, Naza)
-- Summary: Discussed methods to store images, discussed about the react routes (backend) and front-end implementation
-- Major Issues: None 
+## ✨ Features
+- Real-time messaging
+- User authentication with JWT
+- Scalable backend with Node.js and Express
+- Responsive React frontend
 
+## 🛠 Technologies Used
+- **MongoDB**: Database storage
+- **Express.js**: Backend framework
+- **React**: Frontend library
+- **Node.js**: JavaScript runtime
+- **JWT**: Secure user authentication
 
-This Wiki pertains to sprint/milestone 0
+---
 
-For this milestone, we selected user stories that we felt were the most critical to implement, and ones that would allow our team to also potentially continue to extend in future sprints. We also kept in mind that since this is our group's first sprint, we also wanted to ensure that we had sufficient time to setting up and getting used to GitLab and setting up a local development environment.
+## 🚀 Local Development
 
-Selected User Stories for Sprint:
-As a user, I want to be able to display my personal and professional information on a dedicated page, so that potential clients and collaborators can identify me and contact me.
-As a user, I want to be able to save and upload a profile picture associated with my account, so I can differentiate myself from different users on the platform and express my individuality
+### Prerequisites
+- [Node.js](https://nodejs.org/en/download/) installed
+- MongoDB Atlas cluster URI ([tutorial](https://www.mongodb.com/docs/atlas/tutorial/create-new-cluster/))
+- JWT secret key ([generate here](https://jwtsecret.com/generate))
 
+### Setup Instructions
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/conversify.git
+   cd conversify
+   ```
+2. **Create `.env` file** in the root directory:
+   ```env
+   PORT=3000
+   MONGO_DB_URI=your_mongodb_uri_here
+   JWT_SECRET=your_jwt_secret_here
+   NODE_ENV=dev
+   ```
+3. **Install dependencies & start the app**
+   ```bash
+   npm install
+   npm run build
+   npm start
+   ```
+   The app will be available at `http://localhost:3000`.
 
+---
 
-The objective of this sprint was to start adding modern features to our chat app, which in this case is being able to set a profile and use a custom profile picture. With the compilation of these selected stores, it will allow us to tackle other features in the future, such as friending users and blocking them, which will likely utilize the profile page components to complete this task.
+## 🌐 Deployment to Production (Render)
 
-We transformed the user stories into assignable tasks, and when dividing the tasks, we made sure to divide them by frontend, middle-end, and backend. Implementing a profile page feature is a vertical development task, meaning that it will impact all three ends. Firstly, our database schema had to have the profile page fields, such as the profile picture URL, first/last name, email, among other information. Next, we created the React routes to add and retrieve information from the MongoDB. At this stage, we would have.
+1. **Sign up** on [Render](https://render.com) and create a **Web Service**.
+2. **Configure environment variables** in Render:
+   - `PORT`: `5000`
+   - `MONGO_DB_URI`: Your MongoDB Atlas URI
+   - `JWT_SECRET`: Your JWT secret key
+3. **Deploy** the service. Render will automatically build and host your application.
 
+---
 
-Post Project Mortem 
+## 👥 Contributors
 
+- Jake McAuley (1060842)
+- Dawoud Husain (1146816)
+- Adhyayan Bhandari(1135943)
+- Naza Anyaegbunam (1158144)
+- Ike Agbaje (1125093)
 
-Overall this milestone did went fiat smooth, there were some hiccups which will e shortly discussed that did cause some for confusion 
+---
 
-There was some confusion for when the first sprint was due, our team thought that it would be due on the 17th but it was due on the 11th, since we assumed the initial system design was not a part of sprint 1. Although this did not have a major impact it is paramount for our team to be more certain of due dates proper ot the beginning of the sprint for better planning
-As a sprint lead, I kept switching the assigned 
+## 📍 Project Information
+**Group 6, Section 2**  
+**University Of Guelph** - CIS*4250
+
+---
+
+🛠️ **Note**: Replace placeholders (`your_mongodb_uri_here`, `your_jwt_secret_here`, contributor names/IDs, university name) with actual values before use.
+```
