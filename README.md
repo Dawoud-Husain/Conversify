@@ -1,4 +1,3 @@
-```markdown
 # Conversify: A Real-time Chatting Application
 
 ![MERN Stack](https://img.shields.io/badge/MERN-Stack-green.svg)
