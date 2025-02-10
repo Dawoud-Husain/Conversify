@@ -79,4 +79,4 @@ A modern real-time chatting application built with the **MERN** (MongoDB, Expres
 ---
 
 🛠️ **Note**: Replace placeholders (`your_mongodb_uri_here`, `your_jwt_secret_here`, contributor names/IDs, university name) with actual values before use.
-```
+
