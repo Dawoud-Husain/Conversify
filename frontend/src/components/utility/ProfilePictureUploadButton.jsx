@@ -59,7 +59,7 @@ const ProfilePictureUploadButton = () => {
   return (
     <div className="mt-5">
       <button onClick={openUploadWidget} className="btn w-44 h-8 px-8 font-semibold rounded-full btn-no-outline btn-no-outline:hover" style={{ fontFamily: "var(--header-font)" }}>
-        Upload Picture!
+        Upload Picture
       </button>
     </div>
 
