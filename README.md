@@ -12,12 +12,18 @@ A modern real-time chatting application built with the **MERN** (MongoDB, Expres
 - Scalable backend with Node.js and Express
 - Responsive React frontend
 
-## 🛠 Technologies Used
-- **MongoDB**: Database storage
-- **Express.js**: Backend framework
-- **React**: Frontend library
-- **Node.js**: JavaScript runtime
-- **JWT**: Secure user authentication
+---
+
+## 📈 Improvements
+
+### Sprint 1
+- Implemented user profile creation and viewing
+- Added support for custom profile pictures
+
+**Links:**
+- [Post-Project Mortem](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-1/Agile-Coach/Post-Project-Mortem-)
+- [Technical Documentation](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-1) (see content under Sprint 1 header)
+
 
 ---
 
