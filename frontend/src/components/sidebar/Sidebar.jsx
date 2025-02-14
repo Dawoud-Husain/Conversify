@@ -4,15 +4,17 @@ import SearchInput from "./SearchInput";
 
 const Sidebar = () => {
 	return (
-		<div className='border-r border-slate-500 p-4 flex flex-col'>
+		// <div className='sidebar flex flex-col p-4'>
+		<div className='flex border-r border-slate-500 pr-8 flex-col'>
 			<SearchInput />
-			<div className='divider px-3'></div>
+			<div className='divider px-10'></div>
 			<Conversations />
 			<LogoutButton />
 		</div>
 	);
 };
 export default Sidebar;
+
 
 // STARTER CODE FOR THIS FILE
 // import Conversations from "./Conversations";

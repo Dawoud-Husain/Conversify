@@ -2,10 +2,9 @@ import { useState } from "react";
 import { IoSearchSharp } from "react-icons/io5";
 import useConversation from "../../zustand/useConversation";
 import useGetConversations from "../../hooks/useGetConversations";
-import useGetProfile from "../../hooks/useGetProfile";
 import toast from "react-hot-toast";
 
-const SearchInput = () => {
+const SearchBar = () => {
 	const [search, setSearch] = useState("");
 	const { setSelectedConversation } = useConversation();
 	const { conversations } = useGetConversations();
@@ -26,8 +25,6 @@ const SearchInput = () => {
 	};
 	return (
 		<form onSubmit={handleSubmit} className='flex items-center gap-2'>
-			{/* <h2>{profile}</h2> */}
-
 			<input
 				type='text'
 				placeholder='Search…'
@@ -41,12 +38,12 @@ const SearchInput = () => {
 		</form>
 	);
 };
-export default SearchInput;
+export default SearchBar;
 
 // STARTER CODE SNIPPET
 // import { IoSearchSharp } from "react-icons/io5";
 
-// const SearchInput = () => {
+// const SearchBar = () => {
 // 	return (
 // 		<form className='flex items-center gap-2'>
 // 			<input type='text' placeholder='Search…' className='input input-bordered rounded-full' />
@@ -56,4 +53,4 @@ export default SearchInput;
 // 		</form>
 // 	);
 // };
-// export default SearchInput;
+// export default SearchBar;
