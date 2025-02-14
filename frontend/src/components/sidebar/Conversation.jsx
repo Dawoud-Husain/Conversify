@@ -62,7 +62,7 @@ const Conversation = ({ conversation, lastIdx, emoji }) => {
 				<div className='flex flex-col flex-1'>
 					<div className='flex gap-3 justify-between'>
 						<p className='font-bold text-gray-200'>{`${conversation.firstName} ${conversation.lastName}`}</p>
-						{/* <span className='text-xl'>{emoji}</span> */}
+						<span className='text-xl'>{isPinned ? "📌" : ""}</span>
 					</div>
 				</div>
 			</div>
