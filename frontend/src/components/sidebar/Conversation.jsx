@@ -1,11 +1,15 @@
 import { useSocketContext } from "../../context/SocketContext";
 import useConversation from "../../zustand/useConversation";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { pinContact, unPinContact } from "../../hooks/useGetPinnedContacts";
 
-const Conversation = ({ conversation, lastIdx, emoji }) => {
+const Conversation = ({ conversation, lastIdx, pinned }) => {
   const { selectedConversation, setSelectedConversation } = useConversation();
-
-  const isSelected = selectedConversation?._id === conversation._id;
   const { onlineUsers } = useSocketContext();
+  const [contextMenu, setContextMenu] = useState(null);
+  const [isPinned, setIsPinned] = useState(pinned);
+  const isSelected = selectedConversation?._id === conversation._id;
   const isOnline = onlineUsers.includes(conversation._id);
 
   // Creating the context menu on right click
@@ -51,22 +55,48 @@ const Conversation = ({ conversation, lastIdx, emoji }) => {
 				${isSelected ? "bg-sky-500" : ""}
 			`}
         onClick={() => setSelectedConversation(conversation)}
+        onContextMenu={handleRightClick}
       >
         <div className={`avatar ${isOnline ? "online" : ""}`}>
           <div className="w-12 rounded-full">
-            <img src={conversation.profilePic} alt="user avatar" />
+            <Link to={`/profile/${conversation._id}`}>
+              <img src={conversation.profilePic} alt="user avatar" />
+            </Link>
           </div>
         </div>
 
         <div className="flex flex-col flex-1">
           <div className="flex gap-3 justify-between">
             <p className="font-bold text-gray-200">{`${conversation.firstName} ${conversation.lastName}`}</p>
-            <span className="text-xl">{emoji}</span>
+            <span className="text-xl">{isPinned ? "📌" : ""}</span>
+            {/* {pinned ? "📌 Unpin" : "📌 Pin"} */}
           </div>
         </div>
       </div>
 
       {!lastIdx && <div className="divider my-0 py-0 h-1" />}
+
+      {/* Only render the context menu on right click */}
+      {contextMenu && (
+        <ul
+          className="context-menu"
+          style={{
+            top: contextMenu.mouseY,
+            left: contextMenu.mouseX,
+            position: "absolute",
+            backgroundColor: "white",
+            boxShadow: "0px 0px 5px rgba(0,0,0,0.5)",
+            padding: "10px",
+            borderRadius: "5px",
+            zIndex: 1000,
+            cursor: "pointer",
+          }}
+        >
+          <li className="context-menu-item" onClick={handlePinClick}>
+            {isPinned ? "📌 Unpin" : "📌 Pin"}
+          </li>
+        </ul>
+      )}
     </>
   );
 };
