@@ -5,34 +5,11 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import NavBar from "../../components/utility/NavBar";
 import ProfileSearchBar from "../../components/utility/ProfileSearchBar";
 import toast from "react-hot-toast";
+import useGetProfile from "../../hooks/useGetProfile";
 
 const Profile = () => {
   const { userId } = useParams();
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const res = await fetch(`/api/users/profile/${userId}`);
-        const data = await res.json();
-        if (data.error) {
-          throw new Error(data.error);
-        }
-        setProfile(data);
-      } catch (error) {
-        toast.error(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, [userId]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const { profile } = useGetProfile(userId);
 
   return (
     <>
