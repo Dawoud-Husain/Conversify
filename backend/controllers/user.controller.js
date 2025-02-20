@@ -44,3 +44,41 @@ export const updateProfile = async (req, res) => {
 		res.status(500).json({ error: "Internal server error" });
 	}
 };
+
+export const getPinnedContacts = async (req, res) => {
+	try {
+		// Get all the pinned contacts first.
+		const pinnedContacts = req.user.pinnedContacts.map(contact => contact.toString());
+		res.status(200).json(pinnedContacts);
+	} catch (error) {
+		console.error("Error in getUsersForSidebar: ", error.message);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
+export const pinContact = async (req, res) => {
+	try {
+		// Update pinned contact, add the contact to pinned contacts
+		req.user.pinnedContacts.push(req.body.contact);
+		await req.user.save();
+		res.status(200).json(req.user);
+	} catch (error) {
+		console.error("Error in pinMessage: ", error.message);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
+export const unPinContact = async (req, res) => {
+	try {
+		// If no pinned contacts or the requested contacts isn't in pinnedContacts(technically this should never occur)
+		if (!req.user.pinnedContacts.length || !req.user.pinnedContacts.includes(req.body.contact)) {
+			return res.status(200).json(req.user);
+		}
+		// Update pinned contact, filter to the list of contacts to remove the contact
+		req.user.pinnedContacts = req.user.pinnedContacts.filter(contact => contact.toString() !== req.body.contact);
+		await req.user.save();
+		res.status(200).json(req.user);
+	} catch (error) {
+		console.error("Error in unPinContact: ", error.message);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
+

@@ -39,6 +39,13 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			default: "",
 		},
+		pinnedContacts: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+			},
+		],
+
 		// createdAt, updatedAt => Member since <createdAt>
 	},
 	{ timestamps: true }

@@ -1,14 +1,13 @@
 import { useSocketContext } from "../../context/SocketContext";
 import useConversation from "../../zustand/useConversation";
-
 import { useState, useEffect } from "react";
-
-const Conversation = ({ conversation, lastIdx, emoji }) => {
+import { pinContact } from "../../hooks/useGetPinnedContacts";
+import { unPinContact } from "../../hooks/useGetPinnedContacts";
+const Conversation = ({conversation, lastIdx, pinned}) => {
 	const { selectedConversation, setSelectedConversation } = useConversation();
 	const { onlineUsers } = useSocketContext();
 	const [contextMenu, setContextMenu] = useState(null);
-	const [isPinned, setIsPinned] = useState(false);
-
+	const [isPinned, setIsPinned] = useState(pinned);
 	const isSelected = selectedConversation?._id === conversation._id;
 	const isOnline = onlineUsers.includes(conversation._id);
 
@@ -40,10 +39,14 @@ const Conversation = ({ conversation, lastIdx, emoji }) => {
 	}, [contextMenu]);
 
 	const handlePinClick = () => {
+		if (isPinned) {
+			unPinContact(conversation._id);
+		} else {
+			pinContact(conversation._id);
+		}
 		setIsPinned(!isPinned);
 		setContextMenu(null);
 	};
-
 	return (
 		<>
 			<div
@@ -63,6 +66,7 @@ const Conversation = ({ conversation, lastIdx, emoji }) => {
 					<div className='flex gap-3 justify-between'>
 						<p className='font-bold text-gray-200'>{`${conversation.firstName} ${conversation.lastName}`}</p>
 						<span className='text-xl'>{isPinned ? "📌" : ""}</span>
+						{/* {pinned ? "📌 Unpin" : "📌 Pin"} */}
 					</div>
 				</div>
 			</div>
