@@ -7,7 +7,6 @@ import ProfilePictureUploadButton from "../utility/ProfilePictureUploadButton";
 const ProfileContainer = () => {
   return (
     <div className="flex h-full w-full pl-10 pt-14 pr-10">
-      <ProfileSearchBar />
       <div className="flex-shrink-0">
         <ProfileImage />
         <ProfilePictureUploadButton />
