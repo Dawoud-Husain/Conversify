@@ -2,25 +2,30 @@ import ProfileImage from "./ProfileImage";
 import ProfileHeader from "./ProfileHeader";
 import ProfileBody from "./ProfileBody";
 import ProfileInfo from "./ProfileInfo";
-import ProfileSearchBar from "../utility/ProfileSearchBar";
 import ProfilePictureUploadButton from "../utility/ProfilePictureUploadButton";
-const ProfileContainer = () => {
+
+const ProfileContainer = ({ profile }) => {
   return (
     <div className="flex h-full w-full pl-10 pt-14 pr-10">
       <div className="flex-shrink-0">
-        <ProfileImage />
-        <ProfilePictureUploadButton />
+        <img
+          src={profile.profilePic}
+          alt="Tailwind CSS chat bubble component"
+          className="w-44 h-44 rounded-full object-cover"
+        />
+        <ProfilePictureUploadButton profile={profile} />
       </div>
       <div className="flex flex-col flex-grow pt-8 pl-8">
-        <ProfileHeader className="mb-2" />
-        <ProfileBody className="flex-grow" />
+        <ProfileHeader profile={profile} className="mb-2" />
+        <ProfileBody profile={profile} className="flex-grow" />
       </div>
 
       {/* Profile Info (Optional) */}
       <div className="flex-shrink-0">
-        <ProfileInfo />
+        <ProfileInfo profile={profile} />
       </div>
     </div>
   );
 };
+
 export default ProfileContainer;

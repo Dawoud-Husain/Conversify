@@ -1,10 +1,10 @@
 import { useAuthContext } from "../../context/AuthContext";
 import { BiEnvelope, BiHome, BiPhone } from "react-icons/bi"; // Importing icons
 
-const ProfileInfo = () => {
-  const { authUser } = useAuthContext();
-  const userEmail = authUser.email;
-  const phoneNumber = authUser.phoneNumber;
+const ProfileInfo = ({ profile }) => {
+  // const { authUser } = useAuthContext();
+  const userEmail = profile.email;
+  const phoneNumber = profile.phoneNumber;
 
   return (
     <div className="relative flex flex-col gap-2 text-gray-700">

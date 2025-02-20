@@ -24,11 +24,10 @@ function App() {
           path="/signup"
           element={authUser ? <Navigate to="/" /> : <SignUp />}
         />
-          <Route
-          path="/profile"
-          element={authUser ? < Profile/> : <Navigate to="/" />}
+        <Route
+          path="/profile/:userId"
+          element={authUser ? <Profile /> : <Navigate to="/" />}
         />
-
       </Routes>
       <Toaster />
     </div>

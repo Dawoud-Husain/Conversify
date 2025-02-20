@@ -1,14 +1,12 @@
 import { useAuthContext } from "../../context/AuthContext";
 import { useEffect } from "react";
 
-const ProfileHeader = () => {
-  const { authUser } = useAuthContext();
-  const fullName = authUser.firstName + " " + authUser.lastName;
-  const username = authUser.username;
+const ProfileHeader = ({ profile }) => {
+  // const { authUser } = useAuthContext();
+  // const fullName = authUser.firstName + " " + authUser.lastName;
+  // const username = authUser.username;
 
-  useEffect(() => {
-    console.log("authUser:", authUser);
-  }, [authUser]);
+  const fullName = profile.firstName + " " + profile.lastName;
 
   return (
     <div className="flex flex-col self-start pb-20">
@@ -20,7 +18,7 @@ const ProfileHeader = () => {
         {fullName}
       </h1>
 
-      <p className="text-gray-600 text-lg">@{username}</p>
+      <p className="text-gray-600 text-lg">@{profile.username}</p>
 
       {/* <div className="mt-4 flex space-x-4">
         <button className="px -6 py-3 bg-yellow-200 text-gray-900 font-semibold rounded-md" />
