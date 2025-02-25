@@ -2,25 +2,37 @@ import ProfileImage from "./ProfileImage";
 import ProfileHeader from "./ProfileHeader";
 import ProfileBody from "./ProfileBody";
 import ProfileInfo from "./ProfileInfo";
+import { useAuthContext } from "../../context/AuthContext";
 import ProfilePictureUploadButton from "../utility/ProfilePictureUploadButton";
-const ProfileContainer = () => {
-	return (
-		<div className="flex h-full w-full pl-10 pt-14 pr-10">
-            <div className="flex-shrink-0">
-                <ProfileImage />
-                <ProfilePictureUploadButton/>
-            </div>
-            <div className="flex flex-col flex-grow pt-8 pl-8">
-                <ProfileHeader className="mb-2" />
-                <ProfileBody className="flex-grow" />
-            </div>
+import { useEffect, useState } from "react";
 
-            {/* Profile Info (Optional) */}
-            <div className="flex-shrink-0">
-                <ProfileInfo />
-            </div>
-        </div>
+const ProfileContainer = ({ profile }) => {
+  const { authUser, setAuthUser } = useAuthContext();
+  const [render, setRender] = useState(true);
+  useEffect(() => {
+    profile._id === authUser._id ? setRender(true) : setRender(false);
+  }, [profile]);
+  return (
+    <div className="flex h-full w-full pl-10 pt-14 pr-10">
+      <div className="flex-shrink-0">
+        <img
+          src={profile.profilePic}
+          alt="Tailwind CSS chat bubble component"
+          className="w-44 h-44 rounded-full object-cover"
+        />
+        {render && <ProfilePictureUploadButton />}
+      </div>
+      <div className="flex flex-col flex-grow pt-8 pl-8">
+        <ProfileHeader profile={profile} className="mb-2" />
+        <ProfileBody profile={profile} className="flex-grow" />
+      </div>
 
-	);
+      {/* Profile Info (Optional) */}
+      <div className="flex-shrink-0">
+        <ProfileInfo profile={profile} />
+      </div>
+    </div>
+  );
 };
+
 export default ProfileContainer;
