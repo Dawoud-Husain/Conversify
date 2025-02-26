@@ -21,6 +21,10 @@ html, body, #root {
     padding: 0;
 }
 
+.navbar {
+    min-height: 5rem /* 64px */;
+}
+
 .message-text{
 	font-family: "Afacad Flux", serif;
 	font-optical-sizing: auto;
@@ -62,6 +66,19 @@ html, body, #root {
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
+}
+
+.textarea {
+    min-height: 1rem /* 48px */;
+    font-size: 0.875rem /* 14px */;
+    line-height: 1.25rem /* 20px */;
+    line-height: 2;
+    border-radius: var(--rounded-btn, 0.5rem /* 8px */);
+    /* border-width: 10px; */
+    /* border-color: transparent; */
+    color: var(--darker-yellow);
+    border: 2px solid var(--darker-yellow); 
+    background-color: transparent;
 }
 
 body {
