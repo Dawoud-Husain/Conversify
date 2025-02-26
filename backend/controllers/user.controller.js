@@ -4,9 +4,10 @@ export const getUsersForSidebar = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
 
+    // Get all users in the friends list, and not the user itself.
     const filteredUsers = await User.find({
-      _id: { $ne: loggedInUserId },
-    }).select("-password");
+      _id: { $in: req.user.friends, $ne: loggedInUserId },
+    }).select("-password");    
 
     res.status(200).json(filteredUsers);
   } catch (error) {
@@ -108,3 +109,38 @@ export const unPinContact = async (req, res) => {
 	}
 };
 
+export const getFriends = async (req, res) => {
+
+  try {
+    const { id: profileId } = req.params;
+    const profileUser = await User.findById(profileId).select("-password");
+    if (!profileUser) {
+      res.status(404).json({ error: "User Not Found" });
+    }
+    const filteredUsers = await User.find({
+      _id: { $in: profileUser.friends},
+    }).select("-password");    
+
+    res.status(200).json(filteredUsers);
+  } catch (error) {
+    console.error("Error in getFriends: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const addFriend = async (req, res) => {
+	try {
+    const profileUser = await User.findById(req.body.id).select("-password");
+    if (!profileUser) {
+      res.status(404).json({ error: "User Not Found" });
+    }
+    // Add each user to each other's friends list
+		req.user.friends.push(profileUser._id);
+    profileUser.friends.push(req.user._id)
+    await req.user.save();
+		res.status(200).json(req.user);
+	} catch (error) {
+		console.error("Error in addFriend: ", error.message);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};

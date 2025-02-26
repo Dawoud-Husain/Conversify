@@ -4,7 +4,6 @@ import Conversation from "./Conversation";
 import pinnedContacts from "../../hooks/useGetPinnedContacts";
 import { unPinContact } from "../../hooks/useGetPinnedContacts";
 import { useEffect } from "react";
-// import useGetPinnedContacts from "../../hooks/useGetPinnedContacts";
 
 const Conversations = () => {
   const { loading, conversations } = useGetConversations();
@@ -16,11 +15,6 @@ const Conversations = () => {
   const otherConversations = conversations.filter(
     (conversation) => !contacts.includes(conversation._id)
   );
-
-  useEffect(() => {
-    console.log("Pinned: ");
-    console.log(pinnedConversations);
-  }, [conversations]);
 
   return (
     <div className="py-2 flex flex-col overflow-auto">
