@@ -4,9 +4,9 @@ export const getUsersForSidebar = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
 
-    // Get all users in the friends list, and not the user itself.
+    // Get all the users of the application.
     const filteredUsers = await User.find({
-      _id: { $in: req.user.friends, $ne: loggedInUserId },
+      _id: { $ne: loggedInUserId },
     }).select("-password");    
 
     res.status(200).json(filteredUsers);

@@ -2,6 +2,7 @@ import ProfileImage from "./ProfileImage";
 import ProfileHeader from "./ProfileHeader";
 import ProfileBody from "./ProfileBody";
 import ProfileInfo from "./ProfileInfo";
+import ProfileFriends from "./ProfileFriends"; // Import ProfileFriends
 import { useAuthContext } from "../../context/AuthContext";
 import ProfilePictureUploadButton from "../utility/ProfilePictureUploadButton";
 import { useEffect, useState } from "react";
@@ -41,36 +42,39 @@ const ProfileContainer = ({ profile }) => {
   };
 
   return (
-    <div className="flex h-full w-full pl-10 pt-14 pr-10">
-      <div className="flex-shrink-0">
-        <img
-          src={profile.profilePic}
-          alt="Tailwind CSS chat bubble component"
-          className="w-44 h-44 rounded-full object-cover"
-        />
-        {/* Add Friend Button */}
-        {!render && (
+    <div className="grid grid-cols-3 gap-4 h-full w-full p-10">
+      <div className="">
+        <div className="flex flex-row">
+        <div>
+          <img
+            src={profile.profilePic}
+            alt="Tailwind CSS chat bubble component"
+            className="w-44 h-44 rounded-full object-cover"
+          />
+        </div>
+        <div className="ml-4 mt-8">
+          <ProfileHeader profile={profile} />
+        </div>
+        </div>
+        {!render && !isLoading && (
           <div className="mt-4">
             <button
               onClick={handleAddFriend}
               className="btn w-44 h-8 px-8 font-semibold rounded-full btn-no-outline btn-no-outline:hover"
               style={{ fontFamily: "var(--header-font)" }}
-              disabled={isFriendRequestSent || isLoading} // Disable button after request is sent or while loading
+              disabled={isFriendRequestSent}
             >
-              {isLoading ? "Sending..." : isFriendRequestSent ? "Request Sent" : "Add Friend"}
+              {isFriendRequestSent ? "Request Sent" : "Add Friend"}
             </button>
           </div>
         )}
         {render && <ProfilePictureUploadButton />}
       </div>
-      <div className="flex flex-col flex-grow pt-8 pl-8">
-        <ProfileHeader profile={profile} className="mb-2" />
-        <ProfileBody profile={profile} className="flex-grow" />
-      </div>
-
-      {/* Profile Info (Optional) */}
-      <div className="flex-shrink-0">
+      <div className="flex justify-end col-span-2">
         <ProfileInfo profile={profile} />
+      </div>
+      <div className="">
+        <ProfileFriends profile={profile} />
       </div>
     </div>
   );

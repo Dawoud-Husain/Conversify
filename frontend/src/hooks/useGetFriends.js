@@ -6,6 +6,10 @@ export const getFriends = (id) => {
 	const [contacts, setContacts] = useState([]);
 
 	useEffect(() => {
+		if (!id) {
+			return;
+		}
+
 		const getFriends = async (id) => {
 			try {
 				const res = await fetch(`/api/users/friends/${id}`);
@@ -13,17 +17,17 @@ export const getFriends = (id) => {
 				if (data.error) {
 					throw new Error(data.error);
 				}
+				console.log(data)
 				setContacts(data);
 			} catch (error) {
 				toast.error(error.message);
-			} finally {
 			}
 		};
 
 		getFriends(id);
-	}, []);
+	}, [id]);
 
-	return {contacts };
+	return { contacts };
 };
 
 // adding a friend
