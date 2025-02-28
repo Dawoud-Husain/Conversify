@@ -3,12 +3,14 @@ import useConversation from "../../zustand/useConversation";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { pinContact, unPinContact } from "../../hooks/useGetPinnedContacts";
+import useDeleteConversations from "../../hooks/useDeleteConversations";
 
 const Conversation = ({ conversation, lastIdx, pinned }) => {
   const { selectedConversation, setSelectedConversation } = useConversation();
   const { onlineUsers } = useSocketContext();
   const [contextMenu, setContextMenu] = useState(null);
   const [isPinned, setIsPinned] = useState(pinned);
+  const { loading, deleteConversation }  = useDeleteConversations();
   const isSelected = selectedConversation?._id === conversation._id;
   const isOnline = onlineUsers.includes(conversation._id);
 
@@ -70,6 +72,7 @@ const Conversation = ({ conversation, lastIdx, pinned }) => {
             <p className="font-bold text-gray-200">{`${conversation.firstName} ${conversation.lastName}`}</p>
             <span className="text-xl">{isPinned ? "📌" : ""}</span>
             {/* {pinned ? "📌 Unpin" : "📌 Pin"} */}
+            
           </div>
         </div>
       </div>
@@ -95,6 +98,15 @@ const Conversation = ({ conversation, lastIdx, pinned }) => {
           <li className="context-menu-item" onClick={handlePinClick}>
             {isPinned ? "📌 Unpin" : "📌 Pin"}
           </li>
+
+          <li className="context-menu-item" onClick={() => {
+            if(window.confirm('Delete Chat Messages?')) {
+              deleteConversation(conversation._id);
+              setSelectedConversation(conversation);
+            }}}>
+            🗑️ Delete Messages
+          </li>
+
         </ul>
       )}
     </>
