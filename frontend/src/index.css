@@ -218,6 +218,11 @@ body.login-page {
     color: #b0b0b0;
 }
 
+.context-menu-item:hover{
+    color: var(--light-yellow); 
+    background-color: var(--darker-yellow); 
+}
+
 
 @keyframes shake {
 	10%,
@@ -241,3 +246,5 @@ body.login-page {
 		transform: translate3d(4px, 0, 0);
 	}
 }
+
+
