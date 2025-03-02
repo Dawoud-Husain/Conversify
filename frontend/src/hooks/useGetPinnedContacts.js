@@ -13,7 +13,6 @@ const pinnedContacts = () => {
 				if (data.error) {
 					throw new Error(data.error);
 				}
-				console.log(data)
 				setContacts(data);
 			} catch (error) {
 				toast.error(error.message);
@@ -43,7 +42,6 @@ export const pinContact = (contact) => {
 			if (data.error) {
 				throw new Error(data.error);
 			}
-			console.log(data);
 		} catch (error) {
 			toast.error(error.message);
 		}

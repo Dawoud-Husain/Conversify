@@ -8,8 +8,32 @@ import toast from "react-hot-toast";
 import useGetProfile from "../../hooks/useGetProfile";
 
 const Profile = () => {
-  const { userId } = useParams();
-  const { profile } = useGetProfile(userId);
+  const { userId } = useParams(); // Get the user ID from the URL
+  const { profile, loading } = useGetProfile(userId); // Fetch the profile data
+
+  // Show a loading spinner while fetching the profile
+  if (loading) {
+    return (
+      <>
+        <NavBar />
+        <div className="flex flex-row h-full w-full pt-20 justify-center items-center">
+          <div className="loading loading-spinner text-primary"></div>
+        </div>
+      </>
+    );
+  }
+
+  // Show an error message if the profile is not found
+  if (!profile) {
+    return (
+      <>
+        <NavBar />
+        <div className="flex flex-row h-full w-full pt-20 justify-center items-center">
+          <p className="text-gray-500">User not found.</p>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>

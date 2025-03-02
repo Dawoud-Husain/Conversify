@@ -45,8 +45,12 @@ const userSchema = new mongoose.Schema(
 				ref: "User",
 			},
 		],
-
-		// createdAt, updatedAt => Member since <createdAt>
+		friends: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+			},
+		],
 	},
 	{ timestamps: true }
 );
