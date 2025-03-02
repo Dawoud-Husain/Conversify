@@ -3,6 +3,8 @@ import ProfileHeader from "./ProfileHeader";
 import ProfileBody from "./ProfileBody";
 import ProfileInfo from "./ProfileInfo";
 import ProfileFriends from "./ProfileFriends"; // Import ProfileFriends
+import { addFriend } from "../../hooks/useGetFriends";
+import { getFriends } from "../../hooks/useGetFriends";
 import { useAuthContext } from "../../context/AuthContext";
 import ProfilePictureUploadButton from "../utility/ProfilePictureUploadButton";
 import { useEffect, useState } from "react";
@@ -12,32 +14,34 @@ const ProfileContainer = ({ profile }) => {
   const { authUser } = useAuthContext();
   const [render, setRender] = useState(true);
   const [isFriendRequestSent, setIsFriendRequestSent] = useState(false);
+  const { contacts, setContacts } = getFriends(authUser._id);
+  const [areFriends, setAreFriends] = useState(false);
+
+  // Check whether the profile that is being visited is a friend or not
+  useEffect(() => {
+    setAreFriends(contacts.some(contact => contact._id === profile._id));
+  }, [contacts, profile._id]);
+
   const [isLoading, setIsLoading] = useState(false); // Loading state for the button
 
+  // Check whether the profile being visited is the authenticated user's profile
   useEffect(() => {
     profile._id === authUser._id ? setRender(true) : setRender(false);
   }, [profile]);
 
+  // On button click 
   const handleAddFriend = async () => {
-    setIsLoading(true); // Start loading
+    setIsLoading();
     try {
-      // Send a POST request to the backend to add a friend
-      const response = await fetch(`/api/users/friends/request/${profile._id}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      const data = await response.json();
-      if (data.error) throw new Error(data.error);
-
-      // Update the state to indicate the friend request was sent
+      await addFriend(profile._id);
+      toast.success("Friend added!");
       setIsFriendRequestSent(true);
-      toast.success("Friend request sent!"); // Success toast
+      setAreFriends(true);
+      window.location.reload(); // Refresh page so the effect takes place
     } catch (error) {
-      console.error("Error adding friend:", error.message);
-      toast.error("Failed to send friend request."); // Error toast
+      toast.error("Failed to add friend.");true
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 
@@ -45,16 +49,16 @@ const ProfileContainer = ({ profile }) => {
     <div className="grid grid-cols-3 gap-4 h-full w-full p-10">
       <div className="">
         <div className="flex flex-row">
-        <div>
-          <img
-            src={profile.profilePic}
-            alt="Tailwind CSS chat bubble component"
-            className="w-44 h-44 rounded-full object-cover"
-          />
-        </div>
-        <div className="ml-4 mt-8">
-          <ProfileHeader profile={profile} />
-        </div>
+          <div>
+            <img
+              src={profile.profilePic}
+              alt="Tailwind CSS chat bubble component"
+              className="w-44 h-44 rounded-full object-cover"
+            />
+          </div>
+          <div className="ml-4 mt-8">
+            <ProfileHeader profile={profile} />
+          </div>
         </div>
         {!render && !isLoading && (
           <div className="mt-4">
@@ -62,9 +66,9 @@ const ProfileContainer = ({ profile }) => {
               onClick={handleAddFriend}
               className="btn w-44 h-8 px-8 font-semibold rounded-full btn-no-outline btn-no-outline:hover"
               style={{ fontFamily: "var(--header-font)" }}
-              disabled={isFriendRequestSent}
+              disabled={areFriends}
             >
-              {isFriendRequestSent ? "Request Sent" : "Add Friend"}
+              {areFriends ? "Friends!" : "Add Friend"}
             </button>
           </div>
         )}

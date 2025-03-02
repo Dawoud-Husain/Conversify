@@ -129,16 +129,19 @@ export const getFriends = async (req, res) => {
 };
 
 export const addFriend = async (req, res) => {
-	try {
+  try {
     const profileUser = await User.findById(req.body.id).select("-password");
     if (!profileUser) {
-      res.status(404).json({ error: "User Not Found" });
+      return res.status(404).json({ error: "User Not Found" });
     }
     // Add each user to each other's friends list
-		req.user.friends.push(profileUser._id);
-    profileUser.friends.push(req.user._id)
+    req.user.friends.push(profileUser._id);
+    profileUser.friends.push(req.user._id);
+  
+    // Save both profiles
     await req.user.save();
-		res.status(200).json(req.user);
+    await profileUser.save();
+    res.status(200).json(req.user);
 	} catch (error) {
 		console.error("Error in addFriend: ", error.message);
 		res.status(500).json({ error: "Internal server error" });

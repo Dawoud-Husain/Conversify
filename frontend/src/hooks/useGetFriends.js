@@ -17,7 +17,6 @@ export const getFriends = (id) => {
 				if (data.error) {
 					throw new Error(data.error);
 				}
-				console.log(data)
 				setContacts(data);
 			} catch (error) {
 				toast.error(error.message);
