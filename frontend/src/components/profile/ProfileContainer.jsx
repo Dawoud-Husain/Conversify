@@ -8,10 +8,11 @@ import { getFriends } from "../../hooks/useGetFriends";
 import { useAuthContext } from "../../context/AuthContext";
 import ProfilePictureUploadButton from "../utility/ProfilePictureUploadButton";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast"; // Import toast for notifications
+import { useNavigate } from "react-router-dom";
 
 const ProfileContainer = ({ profile }) => {
-  const { authUser } = useAuthContext();
+  const navigate = useNavigate();
+  const { authUser, setAuthUser } = useAuthContext();
   const [render, setRender] = useState(true);
   const [isFriendRequestSent, setIsFriendRequestSent] = useState(false);
   const { contacts, setContacts } = getFriends(authUser._id);
@@ -73,13 +74,27 @@ const ProfileContainer = ({ profile }) => {
           </div>
         )}
         {render && <ProfilePictureUploadButton />}
+        {render && (
+          <button
+            onClick={() => navigate("/profile/edit/" + authUser._id)}
+            className="btn mt-2 w-44 h-8 px-8 font-semibold rounded-full btn-no-outline btn-no-outline:hover"
+            style={{ fontFamily: "var(--header-font)" }}
+          >
+            Edit Profile
+          </button>
+        )}
       </div>
       <div className="flex justify-end col-span-2">
         <ProfileInfo profile={profile} />
       </div>
       <div className="">
+        <ProfileBody profile={profile} />
+      </div>
+
+      <div className="">
         <ProfileFriends profile={profile} />
       </div>
+      
     </div>
   );
 };

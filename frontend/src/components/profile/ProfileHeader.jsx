@@ -9,7 +9,7 @@ const ProfileHeader = ({ profile }) => {
   const fullName = profile.firstName + " " + profile.lastName;
 
   return (
-    <div className="flex flex-col self-start pb-20">
+    <div className="flex flex-col self-start pb-10">
       <div className="relative"></div>
       <h1
         className="text-3xl font-bold text-gray-900"
