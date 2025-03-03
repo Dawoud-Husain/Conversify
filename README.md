@@ -21,8 +21,19 @@ A modern real-time chatting application built with the **MERN** (MongoDB, Expres
 - Added support for custom profile pictures
 
 **Links:**
-- [Post-Project Mortem](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-1/Agile-Coach/Post-Project-Mortem-)
+- [Sprint Information](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-1/Agile-Coach/Post-Project-Mortem-)
 - [Technical Documentation](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-1) (see content under Sprint 1 header)
+
+
+### Sprint 2
+- Pin Contacts
+- Search and view profiles 
+- Delete conversations
+- Add and see friends
+
+**Links:**
+- [Sprint Information](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-2/Agile-Coach)
+- [Technical Documentation](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-2) (see content under Sprint 2 header)
 
 
 ---
