@@ -1,14 +1,12 @@
-import ProfileImage from "./ProfileImage";
+
 import ProfileHeader from "./ProfileHeader";
-import ProfileBody from "./ProfileBody";
+import ProfileBodyEdit from "./ProfileBodyEdit";
 import ProfileInfo from "./ProfileInfo";
 import { useAuthContext } from "../../context/AuthContext";
 import ProfilePictureUploadButton from "../utility/ProfilePictureUploadButton";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-const ProfileContainer = ({ profile }) => {
-  const navigate = useNavigate();
+const ProfileEditContainer = ({ profile }) => {
   const { authUser, setAuthUser } = useAuthContext();
   const [render, setRender] = useState(true);
   useEffect(() => {
@@ -22,20 +20,11 @@ const ProfileContainer = ({ profile }) => {
           alt="Tailwind CSS chat bubble component"
           className="w-44 h-44 rounded-full object-cover"
         />
-        {render && <ProfilePictureUploadButton />}
-        {render && (
-          <button
-            onClick={() => navigate("/profile/edit/" + authUser._id)}
-            className="btn mt-2 w-44 h-8 px-8 font-semibold rounded-full btn-no-outline btn-no-outline:hover"
-            style={{ fontFamily: "var(--header-font)" }}
-          >
-            Edit Profile
-          </button>
-        )}
+        {/* {render && <ProfilePictureUploadButton />} */}
       </div>
-      <div className="flex flex-col flex-grow pt-8 pl-8">
+      <div className="flex flex-col flex-grow pt-8 pl-8 pb-8">
         <ProfileHeader profile={profile} className="mb-2" />
-        <ProfileBody profile={profile} className="flex-grow" />
+        <ProfileBodyEdit profile={profile} className="flex-grow" />
       </div>
 
       {/* Profile Info (Optional) */}
@@ -46,4 +35,4 @@ const ProfileContainer = ({ profile }) => {
   );
 };
 
-export default ProfileContainer;
+export default ProfileEditContainer;

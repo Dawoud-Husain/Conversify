@@ -39,6 +39,21 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			default: "",
 		},
+		company: {
+			type: String,
+			required: false,
+			unique: false,
+		},
+		about: {
+			type: String,
+			required: false,
+			unique: false,
+		},
+		languages: {
+			type: String,
+			required: false,
+			unique: false,
+		},
 		pinnedContacts: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
