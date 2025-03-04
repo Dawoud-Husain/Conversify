@@ -9,6 +9,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import ProfilePictureUploadButton from "../utility/ProfilePictureUploadButton";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ProfileContainer = ({ profile }) => {
   const navigate = useNavigate();
