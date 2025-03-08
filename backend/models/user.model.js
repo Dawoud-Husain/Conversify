@@ -2,9 +2,23 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
 	{
-		fullName: {
+		firstName: {
 			type: String,
 			required: true,
+		},
+		lastName: {
+			type: String,
+			required: true,
+		},
+		email: {
+			type: String,
+			required: false,
+			unique: true,
+		},
+		phoneNumber: {
+			type: String,
+			required: false,
+			unique: true,
 		},
 		username: {
 			type: String,
@@ -25,7 +39,33 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			default: "",
 		},
-		// createdAt, updatedAt => Member since <createdAt>
+		company: {
+			type: String,
+			required: false,
+			unique: false,
+		},
+		about: {
+			type: String,
+			required: false,
+			unique: false,
+		},
+		languages: {
+			type: String,
+			required: false,
+			unique: false,
+		},
+		pinnedContacts: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+			},
+		],
+		friends: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+			},
+		],
 	},
 	{ timestamps: true }
 );

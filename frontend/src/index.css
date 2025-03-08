@@ -2,11 +2,99 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+	/* setting brand colours/themes to use throughout the react code */
+    --light-grey: #797a73;
+    --light-yellow: #F1F2E3;
+	--dark-yellow: #353906;
+	--darker-yellow: #4d4e3b;
+	--off-white-bg: #ffffff;
+	/* --logo-font: "Grenze Gotisch", serif; */
+	--logo-font: "Rammetto One", serif;
+	--header-font: "Roboto", serif;
+	height: 100%;
+}
+
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    min-height: 5rem /* 64px */;
+}
+
+.message-text{
+	font-family: "Afacad Flux", serif;
+	font-optical-sizing: auto;
+	font-style: normal;	
+}
+
+.chat {
+    display: flex;
+    align-items: flex-end;
+}
+
+.chat-end {
+    justify-content: flex-end;
+}
+
+.chat-start {
+    justify-content: flex-start;
+}
+
+.chat-bubble {
+    display: inline-block;
+    word-wrap: break-word;
+    padding: 10px 15px;
+    font-size: 16px;
+    line-height: 1.5;
+    max-width: 75%; /* Max width for larger messages */
+    min-width: 50px; /* Minimum width for short messages */
+    width: auto; /* Dynamically adjust based on content */
+}
+
+.chat-footer {
+    font-size: 12px;
+    margin-top: 4px;
+    color: #666;
+}
+
+.chat-avatar img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.textarea {
+    min-height: 1rem /* 48px */;
+    font-size: 0.875rem /* 14px */;
+    line-height: 1.25rem /* 20px */;
+    line-height: 2;
+    border-radius: var(--rounded-btn, 0.5rem /* 8px */);
+    /* border-width: 10px; */
+    /* border-color: transparent; */
+    color: var(--darker-yellow);
+    border: 2px solid var(--darker-yellow); 
+    background-color: transparent;
+}
+
 body {
-	background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("/bg.png");
+	background: var(--off-white-bg);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
+}
+
+body.login-page {
+    background-color: var(--off-white-bg); /* Fallback color */
+    background-image: url('../public/loginbg.jpg'); /* Make sure the file path is correct */
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 /* dark mode looking scrollbar */
@@ -35,6 +123,124 @@ body {
 	perspective: 1000px;
 }
 
+.sidebar {
+    position: fixed; /* Keeps it fixed on the left */
+    left: 0; /* Ensures it stays on the left */
+    top: 0;
+    bottom: 0; /* Extends from top to bottom */
+    width: 20rem; /* Equivalent to w-64 in Tailwind */
+    height: 100vh; /* Full height of the viewport */
+    
+    background-color: var(--off-white-bg); /* Adjust as needed */
+    
+    border-right: 2px solid var(--darker-yellow); /* Right border */
+    /* border-top: 2px solid rebeccapurple; /* Top border */
+    /*border-bottom: 5px solid rebeccapurple; /* Bottom border */
+}
+
+
+.custom-input {
+    background-color: var(--dark-yellow);
+	color: whitesmoke
+}
+
+.btn-hover-darken {
+    background-color: var(--darker-yellow);
+    color: var(--light-yellow);
+    transition: background-color 0.3s ease;
+}
+
+.btn-hover-darken:hover {
+    background-color: #2c2d05; /* Darker shade of --darker-yellow */
+}
+
+.search-input {
+    border: 2px solid var(--darker-yellow); /* Adjust border width & color */
+    background-color: transparent; /* Removes background color */
+    color: var(--darker-yellow); /* Text color */
+    padding: 8px 12px; /* Adjust padding */
+    outline: none; /* Removes default focus outline */
+}
+
+.search-input::placeholder {
+    color: var(--darker-yellow); /* Change placeholder text color */
+    /* opacity: 1; /* Adjust opacity for better visibility */
+}
+
+/* Custom Search Button */
+.search-button {
+    background-color: var(--darker-yellow); /* Change button background color */
+    border: none; /* Remove default border */
+    width: 40px; /* Adjust button size */
+    height: 40px;
+    border-radius: 50%; /* Make it circular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out; /* Smooth hover effect */
+}
+
+.search-button:hover {
+    background-color: var(--dark-yellow); /* Lighter yellow on hover */
+}
+
+.btn-no-outline {
+    border: none; /* Removes default focus outline */
+    color: var(--darker-yellow); /* Change text color */
+    background-color: var(--light-yellow); /* Change button background color */
+    font-size: medium;
+}
+
+.btn-no-outline:hover {
+    color: var(--light-yellow); /* Change text color */
+    background-color: var(--darker-yellow); /* Change button background color */
+}
+
+.btn-outline {
+    border: 2px solid var(--darker-yellow);
+    color: var(--dark-yellow); /* Change text color */
+    background-color: transparent; /* Change button background color */
+    font-size: medium;
+}
+
+/* Custom Search Icon */
+.search-icon {
+    color: var(--light-yellow); /* Change icon color */
+    font-size: 1.5rem; /* Adjust icon size */
+}
+
+/* Header and Input Area Customization */
+.bg-gray-800 {
+    background-color: #2d2d2d; /* Darker grey */
+}
+
+.bg-gray-700 {
+    background-color: #3d3d3d; /* Slightly lighter grey */
+}
+
+.bg-gray-600 {
+    background-color: #4d4d4d; /* Medium grey */
+}
+
+.text-white {
+    color: white;
+}
+
+.text-gray-400 {
+    color: #b0b0b0;
+}
+
+.placeholder-gray-400::placeholder {
+    color: #b0b0b0;
+}
+
+.context-menu-item:hover{
+    color: var(--light-yellow); 
+    background-color: var(--darker-yellow); 
+}
+
+
 @keyframes shake {
 	10%,
 	90% {
@@ -57,3 +263,5 @@ body {
 		transform: translate3d(4px, 0, 0);
 	}
 }
+
+
