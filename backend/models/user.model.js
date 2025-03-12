@@ -66,6 +66,7 @@ const userSchema = new mongoose.Schema(
 				ref: "User",
 			},
 		],
+		otp: { type: String }
 	},
 	{ timestamps: true }
 );
