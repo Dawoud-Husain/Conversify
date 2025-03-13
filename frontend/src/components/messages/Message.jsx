@@ -1,10 +1,14 @@
 import { useAuthContext } from "../../context/AuthContext";
 import { extractTime } from "../../utils/extractTime";
 import useConversation from "../../zustand/useConversation";
+import useReactMessages from "../../hooks/useReactMessages";
+import useListenReactions from "../../hooks/useListenReactions";
 
 const Message = ({ message }) => {
+    useListenReactions();
     const { authUser } = useAuthContext();
     const { selectedConversation } = useConversation();
+    const { reactMessage, loading } = useReactMessages();
     const fromMe = message.senderId === authUser._id;
     const formattedTime = extractTime(message.createdAt);
     const chatClassName = fromMe ? "chat-end" : "chat-start";
@@ -28,6 +32,22 @@ const Message = ({ message }) => {
             )}
 
             {/* Chat Bubble */}
+            {!fromMe && (
+            <div
+                onClick={() => reactMessage(message._id, "👍")}
+                className="message-text chat-bubble"
+                style={{
+                    ...bubbleStyle,
+                    maxWidth: "75%", // Allow bubbles to take up to 75% of the container width
+                    wordWrap: "break-word", // Handle long text wrapping
+                    padding: "10px 15px",
+                }}
+            >
+                {message.message}
+            </div>
+            )}
+
+            {fromMe && (
             <div
                 className="message-text chat-bubble"
                 style={{
@@ -39,6 +59,13 @@ const Message = ({ message }) => {
             >
                 {message.message}
             </div>
+            )}
+            
+            {message.reaction && (
+                <div>
+                    {message.reaction}
+                </div>
+            )}
 
             {/* Footer for Time */}
             <div className="chat-footer opacity-50 text-xs mt-1">{formattedTime}</div>
@@ -57,27 +84,5 @@ const Message = ({ message }) => {
     );
 };
 
-// const Message = ({ message }) => {
-// 	const { authUser } = useAuthContext();
-// 	const { selectedConversation } = useConversation();
-// 	const fromMe = message.senderId === authUser._id;
-// 	const formattedTime = extractTime(message.createdAt);
-// 	const chatClassName = fromMe ? "chat-end" : "chat-start";
-// 	const profilePic = fromMe ? authUser.profilePic : selectedConversation?.profilePic;
-// 	const bubbleBgColor = fromMe ? "bg-blue-500" : "";
 
-// 	const shakeClass = message.shouldShake ? "shake" : "";
-
-// 	return (
-// 		<div className={`chat ${chatClassName}`}>
-// 			<div className='chat-image avatar'>
-// 				<div className='w-10 rounded-full'>
-// 					<img alt='Tailwind CSS chat bubble component' src={profilePic} />
-// 				</div>
-// 			</div>
-// 			<div className={`chat-bubble text-white ${bubbleBgColor} ${shakeClass} pb-2`}>{message.message}</div>
-// 			<div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>{formattedTime}</div>
-// 		</div>
-// 	);
-// };
 export default Message;

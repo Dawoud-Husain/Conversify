@@ -67,3 +67,36 @@ export const getMessages = async (req, res) => {
 		res.status(500).json({ error: "Internal server error" });
 	}
 };
+
+export const reactMessage = async (req, res) => {
+    try {
+        const { reaction_emoji } = req.body;
+        const { id: messageId } = req.params;
+        const currentUserId = req.user._id;
+
+        const message = await Message.findById(messageId);
+        if (!message) {
+            return res.status(404).json({ error: "Message not found" });
+        }
+
+        message.reaction = reaction_emoji;
+        await message.save();
+
+        // Determine receiverId
+        const receiverId = 
+            message.senderId.equals(currentUserId) 
+                ? message.receiverId 
+                : message.senderId;
+
+        // Emit socket event to receiver
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit("newReaction", message);
+        }
+
+        res.status(200).json(message);
+    } catch (error) {
+        console.log("Error in message reaction controller: ", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
