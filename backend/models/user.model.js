@@ -66,6 +66,13 @@ const userSchema = new mongoose.Schema(
 				ref: "User",
 			},
 		],
+		friendNotifications: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+			},
+		],
+
 		otp: { type: String }
 	},
 	{ timestamps: true }

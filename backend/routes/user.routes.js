@@ -10,6 +10,9 @@ import { unPinContact } from "../controllers/user.controller.js";
 import { searchUsers } from "../controllers/user.controller.js";
 import { getFriends } from "../controllers/user.controller.js";
 import { addFriend } from "../controllers/user.controller.js";
+import { getFriendNotifications } from "../controllers/user.controller.js";
+import { deleteFriendNotifications } from "../controllers/user.controller.js";
+
 const router = express.Router();
 
 router.get("/", protectRoute, getUsersForSidebar);
@@ -21,6 +24,9 @@ router.put("/profile", protectRoute, updateProfile);
 router.post("/edit-profile", protectRoute, editProfile);
 router.get("/search", protectRoute, searchUsers);
 router.get("/friends/:id",protectRoute, getFriends)
+router.get("/friendNotifications",protectRoute, getFriendNotifications)
+router.delete("/friendNotifications/:id",protectRoute, deleteFriendNotifications)
+
 router.post("/friends",protectRoute, addFriend)
 
 export default router;
