@@ -1,21 +1,33 @@
 import { useAuthContext } from "../../context/AuthContext";
 import { extractTime } from "../../utils/extractTime";
 import useConversation from "../../zustand/useConversation";
+import useReactMessages from "../../hooks/useReactMessages";
+import useListenReactions from "../../hooks/useListenReactions";
+import Picker from "emoji-picker-react";
+import React, { useState } from "react";
 
 const Message = ({ message }) => {
+    useListenReactions();
     const { authUser } = useAuthContext();
     const { selectedConversation } = useConversation();
+    const { reactMessage, loading } = useReactMessages();
     const fromMe = message.senderId === authUser._id;
     const formattedTime = extractTime(message.createdAt);
     const chatClassName = fromMe ? "chat-end" : "chat-start";
     const profilePic = fromMe ? authUser.profilePic : selectedConversation?.profilePic;
+    const [showPicker, setShowPicker] = useState(false);
 
     const bubbleStyle = fromMe
         ? { backgroundColor: 'var(--light-yellow)', color: 'var(--darker-yellow)', borderRadius: '15px' }
         : { border: '2px solid var(--darker-yellow)', color: 'var(--darker-yellow)', backgroundColor: 'transparent', borderRadius: '15px' };
 
+    const onEmojiClick = async (event, emojiObject) => {
+        await reactMessage(message._id, emojiObject.emoji); // Send the reaction to the backend
+        setShowPicker(false); // Close the picker after selecting an emoji
+    };
+
     return (
-        <div className={`chat ${chatClassName} flex items-end gap-3 mb-4`}>
+        <div className={`chat ${chatClassName} flex items-end gap-3 mb-4 relative`}>
             {/* Profile Picture */}
             {!fromMe && (
                 <div className="chat-avatar">
@@ -28,17 +40,51 @@ const Message = ({ message }) => {
             )}
 
             {/* Chat Bubble */}
-            <div
-                className="message-text chat-bubble"
-                style={{
-                    ...bubbleStyle,
-                    maxWidth: "75%", // Allow bubbles to take up to 75% of the container width
-                    wordWrap: "break-word", // Handle long text wrapping
-                    padding: "10px 15px",
-                }}
-            >
-                {message.message}
-            </div>
+            {!fromMe && (
+                <div
+                    onClick={() => setShowPicker((val) => !val)} // Toggle the picker on message click
+                    className="message-text chat-bubble"
+                    style={{
+                        ...bubbleStyle,
+                        maxWidth: "75%", // Allow bubbles to take up to 75% of the container width
+                        wordWrap: "break-word", // Handle long text wrapping
+                        padding: "10px 15px",
+                    }}
+                >
+                    {message.message}
+                </div>
+            )}
+
+            {fromMe && (
+                <div
+                    className="message-text chat-bubble"
+                    style={{
+                        ...bubbleStyle,
+                        maxWidth: "75%", // Allow bubbles to take up to 75% of the container width
+                        wordWrap: "break-word", // Handle long text wrapping
+                        padding: "10px 15px",
+                    }}
+                >
+                    {message.message}
+                </div>
+            )}
+
+            {/* Emoji Picker */}
+            {showPicker && (
+                <div>
+                    <Picker
+                        pickerStyle={{ width: "100%" }}
+                        onEmojiClick={onEmojiClick} // Close the picker when an emoji is selected
+                    />
+                </div>
+            )}
+
+            {/* Reaction */}
+            {message.reaction && (
+                <div>
+                    {message.reaction}
+                </div>
+            )}
 
             {/* Footer for Time */}
             <div className="chat-footer opacity-50 text-xs mt-1">{formattedTime}</div>
@@ -57,27 +103,4 @@ const Message = ({ message }) => {
     );
 };
 
-// const Message = ({ message }) => {
-// 	const { authUser } = useAuthContext();
-// 	const { selectedConversation } = useConversation();
-// 	const fromMe = message.senderId === authUser._id;
-// 	const formattedTime = extractTime(message.createdAt);
-// 	const chatClassName = fromMe ? "chat-end" : "chat-start";
-// 	const profilePic = fromMe ? authUser.profilePic : selectedConversation?.profilePic;
-// 	const bubbleBgColor = fromMe ? "bg-blue-500" : "";
-
-// 	const shakeClass = message.shouldShake ? "shake" : "";
-
-// 	return (
-// 		<div className={`chat ${chatClassName}`}>
-// 			<div className='chat-image avatar'>
-// 				<div className='w-10 rounded-full'>
-// 					<img alt='Tailwind CSS chat bubble component' src={profilePic} />
-// 				</div>
-// 			</div>
-// 			<div className={`chat-bubble text-white ${bubbleBgColor} ${shakeClass} pb-2`}>{message.message}</div>
-// 			<div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>{formattedTime}</div>
-// 		</div>
-// 	);
-// };
 export default Message;
