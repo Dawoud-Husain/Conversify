@@ -4,21 +4,15 @@ import useConversation from "../zustand/useConversation";
 
 const useListenReactions = () => {
     const { socket } = useSocketContext();
-    const { setMessages } = useConversation();
+    const { messages, setMessages, editMessage } = useConversation();
 
     useEffect(() => {
         socket?.on("newReaction", (updatedMessage) => {
-            setMessages(prevMessages => 
-                prevMessages.map(msg => 
-                    msg._id === updatedMessage._id 
-                        ? { ...msg, reaction: updatedMessage.reaction } 
-                        : msg
-                )
-            );
+            editMessage(updatedMessage);
         });
 
         return () => socket?.off("newReaction");
-    }, [socket, setMessages]);
+    }, [socket, setMessages, editMessage]);
 };
 
 export default useListenReactions;
