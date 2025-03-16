@@ -1,30 +1,28 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
-import speakEasy from "speakeasy"
-import nodemailer from "nodemailer"
+import speakEasy from "speakeasy";
+import nodemailer from "nodemailer";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
 
 // Generates and sends OTP Email through PHONE
 export async function sendOTPEmail(email, token) {
-
   let transporter = nodemailer.createTransport({
-      service: 'gmail',  
-      auth: {
-          user: process.env.TWO_FACTOR_EMAIL,
-          pass: process.env.TWO_FACTOR_PASS
-      }
+    service: "gmail",
+    auth: {
+      user: process.env.TWO_FACTOR_EMAIL,
+      pass: process.env.TWO_FACTOR_PASS,
+    },
   });
 
   let info = await transporter.sendMail({
-      from: 'Conversify - OTP Service',
-      to: email,
-      subject: 'Your OTP Code',
-      text: `Conversify OTP Code is: ${token}`
+    from: "Conversify - OTP Service",
+    to: email,
+    subject: "Your OTP Code",
+    text: `Conversify OTP Code is: ${token}`,
   });
 
-  console.log('Message sent: %s', info.messageId);
+  console.log("Message sent: %s", info.messageId);
 }
-
 
 export const signup = async (req, res) => {
   try {
@@ -37,6 +35,8 @@ export const signup = async (req, res) => {
       password,
       confirmPassword,
       gender,
+      timezone,
+      country,
     } = req.body;
 
     if (password !== confirmPassword) {
@@ -66,6 +66,8 @@ export const signup = async (req, res) => {
       username,
       password: hashedPassword,
       gender,
+      timezone,
+      country,
       profilePic: gender === "male" ? boyProfilePic : girlProfilePic,
     });
 
@@ -82,6 +84,8 @@ export const signup = async (req, res) => {
         email: newUser.email,
         phoneNumber: newUser.phoneNumber,
         gender: newUser.gender,
+        timezone: newUser.timezone,
+        country: newUser.country,
         profilePic: newUser.profilePic,
       });
     } else {
@@ -97,30 +101,26 @@ export const verifyToken = async (req, res) => {
   try {
     const { code, user } = req.body;
     const profileUser = await User.findById(user).select("-password");
-    if (profileUser.otp == code){
-        res.status(200).json({
-          _id: profileUser._id,
-          firstName: profileUser.firstName,
-          lastName: profileUser.lastName,
-          username: profileUser.username,
-          email: profileUser.email,
-          phoneNumber: profileUser.phoneNumber,
-          gender: profileUser.gender,
-          profilePic: profileUser.profilePic,
-        });
-      }
-    else{
-      res.status(500).json({error: "Incorrect OTP. Please Try Again"})
+    if (profileUser.otp == code) {
+      res.status(200).json({
+        _id: profileUser._id,
+        firstName: profileUser.firstName,
+        lastName: profileUser.lastName,
+        username: profileUser.username,
+        email: profileUser.email,
+        phoneNumber: profileUser.phoneNumber,
+        gender: profileUser.gender,
+
+        profilePic: profileUser.profilePic,
+      });
+    } else {
+      res.status(500).json({ error: "Incorrect OTP. Please Try Again" });
     }
   } catch (error) {
     console.error("Error in verifyToken: ", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
-
-  
-}
-
-
+};
 
 export const login = async (req, res) => {
   try {
@@ -138,13 +138,13 @@ export const login = async (req, res) => {
     // // 2 Factor Authentication
     var secret = speakEasy.generateSecret();
     var token = speakEasy.totp({
-      secret : secret.base32,
-      encoding : 'base32',
-      step : 10
+      secret: secret.base32,
+      encoding: "base32",
+      step: 10,
     });
     user.otp = token;
-    user.save()
-    sendOTPEmail(user.email, token)
+    user.save();
+    sendOTPEmail(user.email, token);
 
     generateTokenAndSetCookie(user._id, res);
     res.status(200).json({
