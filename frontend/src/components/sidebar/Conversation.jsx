@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { pinContact, unPinContact } from "../../hooks/useGetPinnedContacts";
 import useDeleteConversations from "../../hooks/useDeleteConversations";
 import LiveTimeDisplay from "../utility/LiveTimeDisplay";
+import countryEmoji from "country-emoji";
 
 const Conversation = ({ conversation, lastIdx, pinned }) => {
   const { selectedConversation, setSelectedConversation } = useConversation();
@@ -71,8 +72,12 @@ const Conversation = ({ conversation, lastIdx, pinned }) => {
         <div className="flex flex-col flex-1 relative">
           <div className="flex gap-1 justify-between relative">
             <div className="flex flex-col gap-1 justify-between">
-              <p className="font-bold text-black opacity-80">{`${conversation.firstName} ${conversation.lastName}`}</p>
-              <LiveTimeDisplay timezone={conversation.timezone} />
+              <p className="font-bold text-black opacity-80">{`${
+                conversation.firstName
+              } ${conversation.lastName} ${countryEmoji.flag(
+                conversation.country
+              )}`}</p>
+              <LiveTimeDisplay timeZone={conversation.timezone} />
             </div>
             <span className="text-xl absolute right-0 top-0">
               {isPinned ? "📌" : ""}
