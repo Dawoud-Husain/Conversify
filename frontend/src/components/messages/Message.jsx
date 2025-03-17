@@ -44,16 +44,25 @@ const Message = ({ message,  setReplyMsg }) => {
                 }}
             >
                 {message.replyMsg && (
-                    <div className="reply-msg mt-2 p-2 border rounded" style={{
-                        ...bubbleStyle,
-                        maxWidth: "75%", // Allow bubbles to take up to 75% of the container width
-                        wordWrap: "break-word", // Handle long text wrapping
-                        padding: "10px 15px",
-                    }}>
-                        <span className="text-gray-500">{message.replyMsg.senderId === authUser._id ? "You: " : selectedConversation?.firstName + " " + selectedConversation?.lastName + ": "}</span>
-                        <span className="text-gray-800 font-semibold">{message.replyMsg.message}</span>
+                    <div
+                        className="reply-msg mt-2 mb-2 p-2 border rounded"
+                        style={{
+                            backgroundColor: message.replyMsg.senderId === authUser._id ? 'var(--darker-yellow)' : 'transparent',
+                            color: message.replyMsg.senderId === authUser._id ? 'var(--light-yellow)' : 'var(--darker-yellow)',
+                            border: '2px solid var(--darker-yellow)',
+                            borderRadius: '10px',
+                            padding: '5px 10px',
+                        }}
+                    >
+                        <span>
+                            {message.replyMsg.senderId === authUser._id
+                                ? "You: "
+                                : selectedConversation?.firstName + " " + selectedConversation?.lastName + ": "}
+                        </span>
+                        <span>{message.replyMsg.message}</span>
                     </div>
                 )}
+
                 {message.message}
             </div>
 
