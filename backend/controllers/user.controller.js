@@ -128,37 +128,6 @@ export const getFriends = async (req, res) => {
   }
 };
 
-// Getting friend notifications
-export const getFriendNotifications = async (req, res) => {
-  
-  try {
-    const filteredUsers = await User.find({
-      _id: { $in: req.user.friendNotifications},
-    }).select("-password");    
-
-    res.status(200).json(filteredUsers);
-  } catch (error) {
-    console.error("Error in getFriendNotifications: ", error.message);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
-// Deleting friend notifications
-
-export const deleteFriendNotifications = async (req, res) => {
-  try {
-    const { id: profileId } = req.params;
-    req.user.friendNotifications = req.user.friendNotifications.filter(notification => notification.toString() !== profileId);
-    await req.user.save();
-
-    res.status(200).json(req.user.friendNotifications);
-  } catch (error) {
-    console.error("Error in deleteFriendNotifications: ", error.message);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-
-
 export const addFriend = async (req, res) => {
   try {
     const profileUser = await User.findById(req.body.id).select("-password");
@@ -168,9 +137,6 @@ export const addFriend = async (req, res) => {
     // Add each user to each other's friends list
     req.user.friends.push(profileUser._id);
     profileUser.friends.push(req.user._id);
-    // For the added friends profile, add it to their notifications
-    profileUser.friendNotifications.push(req.user._id); 
-
   
     // Save both profiles
     await req.user.save();

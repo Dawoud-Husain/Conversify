@@ -4,15 +4,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { pinContact, unPinContact } from "../../hooks/useGetPinnedContacts";
 import useDeleteConversations from "../../hooks/useDeleteConversations";
-import LiveTimeDisplay from "../utility/LiveTimeDisplay";
-import countryEmoji from "country-emoji";
 
 const Conversation = ({ conversation, lastIdx, pinned }) => {
   const { selectedConversation, setSelectedConversation } = useConversation();
   const { onlineUsers } = useSocketContext();
   const [contextMenu, setContextMenu] = useState(null);
   const [isPinned, setIsPinned] = useState(pinned);
-  const { loading, deleteConversation } = useDeleteConversations();
+  const { loading, deleteConversation }  = useDeleteConversations();
   const isSelected = selectedConversation?._id === conversation._id;
   const isOnline = onlineUsers.includes(conversation._id);
 
@@ -69,19 +67,12 @@ const Conversation = ({ conversation, lastIdx, pinned }) => {
           </div>
         </div>
 
-        <div className="flex flex-col flex-1 relative">
-          <div className="flex gap-1 justify-between relative">
-            <div className="flex flex-col gap-1 justify-between">
-              <p className="font-bold text-black opacity-80">{`${
-                conversation.firstName
-              } ${conversation.lastName} ${countryEmoji.flag(
-                conversation.country
-              )}`}</p>
-              <LiveTimeDisplay timeZone={conversation.timezone} />
-            </div>
-            <span className="text-xl absolute right-0 top-0">
-              {isPinned ? "📌" : ""}
-            </span>
+        <div className="flex flex-col flex-1">
+          <div className="flex gap-3 justify-between">
+            <p className="font-bold text-gray-200">{`${conversation.firstName} ${conversation.lastName}`}</p>
+            <span className="text-xl">{isPinned ? "📌" : ""}</span>
+            {/* {pinned ? "📌 Unpin" : "📌 Pin"} */}
+            
           </div>
         </div>
       </div>
@@ -108,17 +99,14 @@ const Conversation = ({ conversation, lastIdx, pinned }) => {
             {isPinned ? "📌 Unpin" : "📌 Pin"}
           </li>
 
-          <li
-            className="context-menu-item"
-            onClick={() => {
-              if (window.confirm("Delete Chat Messages?")) {
-                deleteConversation(conversation._id);
-                setSelectedConversation(conversation);
-              }
-            }}
-          >
+          <li className="context-menu-item" onClick={() => {
+            if(window.confirm('Delete Chat Messages?')) {
+              deleteConversation(conversation._id);
+              setSelectedConversation(conversation);
+            }}}>
             🗑️ Delete Messages
           </li>
+
         </ul>
       )}
     </>

@@ -22,12 +22,6 @@ const messageSchema = new mongoose.Schema(
 			ref: "Message",
 			required: false,
 		},
-
-		reaction: {
-			type: String,
-			required: false,
-		}
-		
 		// createdAt, updatedAt
 	},
 	{ timestamps: true }

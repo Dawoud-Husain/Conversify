@@ -1,19 +1,12 @@
 import { useAuthContext } from "../../context/AuthContext";
 import { useEffect } from "react";
-import countryEmoji from "country-emoji";
-import LiveTimeDisplay from "../utility/LiveTimeDisplay";
 
 const ProfileHeader = ({ profile }) => {
   // const { authUser } = useAuthContext();
   // const fullName = authUser.firstName + " " + authUser.lastName;
   // const username = authUser.username;
 
-  const fullName =
-    profile.firstName +
-    " " +
-    profile.lastName +
-    " " +
-    countryEmoji.flag(profile.country);
+  const fullName = profile.firstName + " " + profile.lastName;
 
   return (
     <div className="flex flex-col self-start pb-10">
@@ -26,7 +19,6 @@ const ProfileHeader = ({ profile }) => {
       </h1>
 
       <p className="text-gray-600 text-lg">@{profile.username}</p>
-      <LiveTimeDisplay timeZone={profile.timezone} />
 
       {/* <div className="mt-4 flex space-x-4">
         <button className="px -6 py-3 bg-yellow-200 text-gray-900 font-semibold rounded-md" />
