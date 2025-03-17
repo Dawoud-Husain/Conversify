@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useConversation from "../../zustand/useConversation";
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
@@ -7,11 +7,21 @@ import { useAuthContext } from "../../context/AuthContext";
 
 const MessageContainer = () => {
 	const { selectedConversation, setSelectedConversation } = useConversation();
+	const [replyMsg, setReplyMsg] = useState(null);
+
+	const { authUser } = useAuthContext();
 
 	useEffect(() => {
-		// cleanup function (unmounts)
-		return () => setSelectedConversation(null);
-	}, [setSelectedConversation]);
+        // Reset replyMsg when selectedConversation changes
+        setReplyMsg(null);
+    }, [selectedConversation]);
+
+    useEffect(() => {
+        // Cleanup function to reset selectedConversation when the component unmounts
+        return () => setSelectedConversation(null);
+    }, [setSelectedConversation]);
+
+	console.log(replyMsg);
 
 	return (
         <div className="flex flex-col h-full w-full">
@@ -31,12 +41,20 @@ const MessageContainer = () => {
 
                     {/* Messages */}
                     <div className="flex-1 overflow-y-auto">
-                        <Messages />
+						<Messages setReplyMsg={setReplyMsg}/>
                     </div>
 
                     {/* Input */}
                     <div className="bg-gray-200 mt-2 px-4 py-3">
-                        <MessageInput />
+					{replyMsg && (
+					<div className='bg-gray-100 p-3 rounded-lg mb-3'>
+						<div className='flex flex-col gap-2'>
+							<span className='text-gray-500'>{replyMsg.senderId === authUser._id ? "You" : selectedConversation?.firstName + " " + selectedConversation?.lastName}</span>
+							<span className='text-gray-800 font-semibold'>{replyMsg.message}</span>
+						</div>
+					</div>
+				)}
+                        <MessageInput replyMsg={replyMsg}/>
                     </div>
                 </>
             )}
