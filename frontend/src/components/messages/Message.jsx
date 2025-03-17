@@ -44,7 +44,12 @@ const Message = ({ message,  setReplyMsg }) => {
                 }}
             >
                 {message.replyMsg && (
-                    <div className="reply-msg mt-2 p-2 border rounded">
+                    <div className="reply-msg mt-2 p-2 border rounded" style={{
+                        ...bubbleStyle,
+                        maxWidth: "75%", // Allow bubbles to take up to 75% of the container width
+                        wordWrap: "break-word", // Handle long text wrapping
+                        padding: "10px 15px",
+                    }}>
                         <span className="text-gray-500">{message.replyMsg.senderId === authUser._id ? "You: " : selectedConversation?.firstName + " " + selectedConversation?.lastName + ": "}</span>
                         <span className="text-gray-800 font-semibold">{message.replyMsg.message}</span>
                     </div>
