@@ -7,7 +7,7 @@ import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "./context/AuthContext";
 import Profile from "./pages/profile/Profile";
 import ProfileEdit from "./pages/profile/edit/ProfileEdit";
-
+import TwoFactorAuth from "./pages/login/TwoFactorAuth";
 function App() {
   const { authUser } = useAuthContext();
   return (
@@ -21,10 +21,16 @@ function App() {
           path="/login"
           element={authUser ? <Navigate to="/" /> : <Login />}
         />
+
         <Route
           path="/signup"
           element={authUser ? <Navigate to="/" /> : <SignUp />}
         />
+        <Route
+          path="/twofactorauth/:userid"
+          element={authUser ? <TwoFactorAuth></TwoFactorAuth> :<Login />}
+        />
+
         <Route
           path="/profile/:userId"
           element={authUser ? <Profile /> : <Navigate to="/" />}

@@ -20,11 +20,10 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-            await login(username, password);
-        } catch (error) {
-            console.error("Login error:", error);
-        }
-		// await login(username, password);
+			const userData = await login(username, password);
+		} catch (error) {
+			console.error("Login error:", error);
+		}
 	};
 
 	return (

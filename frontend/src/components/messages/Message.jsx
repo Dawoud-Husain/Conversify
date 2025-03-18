@@ -1,10 +1,12 @@
 import { useAuthContext } from "../../context/AuthContext";
 import { extractTime } from "../../utils/extractTime";
 import useConversation from "../../zustand/useConversation";
+import { FaReply } from "react-icons/fa6";
 
-const Message = ({ message }) => {
+const Message = ({ message,  setReplyMsg }) => {
     const { authUser } = useAuthContext();
     const { selectedConversation } = useConversation();
+    
     const fromMe = message.senderId === authUser._id;
     const formattedTime = extractTime(message.createdAt);
     const chatClassName = fromMe ? "chat-end" : "chat-start";
@@ -27,6 +29,10 @@ const Message = ({ message }) => {
                 </div>
             )}
 
+            <button onClick={() => setReplyMsg(message)} className="reply-icon">
+                {fromMe && (<FaReply />)}
+            </button>
+
             {/* Chat Bubble */}
             <div
                 className="message-text chat-bubble"
@@ -37,8 +43,32 @@ const Message = ({ message }) => {
                     padding: "10px 15px",
                 }}
             >
+                {message.replyMsg && (
+                    <div
+                        className="reply-msg mt-2 mb-2 p-2 border rounded"
+                        style={{
+                            backgroundColor: message.replyMsg.senderId === authUser._id ? 'var(--darker-yellow)' : 'transparent',
+                            color: message.replyMsg.senderId === authUser._id ? 'var(--light-yellow)' : 'var(--darker-yellow)',
+                            border: '2px solid var(--darker-yellow)',
+                            borderRadius: '10px',
+                            padding: '5px 10px',
+                        }}
+                    >
+                        <span>
+                            {message.replyMsg.senderId === authUser._id
+                                ? "You: "
+                                : selectedConversation?.firstName + " " + selectedConversation?.lastName + ": "}
+                        </span>
+                        <span>{message.replyMsg.message}</span>
+                    </div>
+                )}
+
                 {message.message}
             </div>
+
+            <button onClick={() => setReplyMsg(message)} className="reply-icon">
+                {!fromMe && (<FaReply />)}
+            </button>
 
             {/* Footer for Time */}
             <div className="chat-footer opacity-50 text-xs mt-1">{formattedTime}</div>
@@ -57,27 +87,4 @@ const Message = ({ message }) => {
     );
 };
 
-// const Message = ({ message }) => {
-// 	const { authUser } = useAuthContext();
-// 	const { selectedConversation } = useConversation();
-// 	const fromMe = message.senderId === authUser._id;
-// 	const formattedTime = extractTime(message.createdAt);
-// 	const chatClassName = fromMe ? "chat-end" : "chat-start";
-// 	const profilePic = fromMe ? authUser.profilePic : selectedConversation?.profilePic;
-// 	const bubbleBgColor = fromMe ? "bg-blue-500" : "";
-
-// 	const shakeClass = message.shouldShake ? "shake" : "";
-
-// 	return (
-// 		<div className={`chat ${chatClassName}`}>
-// 			<div className='chat-image avatar'>
-// 				<div className='w-10 rounded-full'>
-// 					<img alt='Tailwind CSS chat bubble component' src={profilePic} />
-// 				</div>
-// 			</div>
-// 			<div className={`chat-bubble text-white ${bubbleBgColor} ${shakeClass} pb-2`}>{message.message}</div>
-// 			<div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>{formattedTime}</div>
-// 		</div>
-// 	);
-// };
 export default Message;

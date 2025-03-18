@@ -1,6 +1,30 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
+import speakEasy from "speakeasy"
+import nodemailer from "nodemailer"
 import generateTokenAndSetCookie from "../utils/generateToken.js";
+
+// Generates and sends OTP Email through PHONE
+export async function sendOTPEmail(email, token) {
+
+  let transporter = nodemailer.createTransport({
+      service: 'gmail',  
+      auth: {
+          user: process.env.TWO_FACTOR_EMAIL,
+          pass: process.env.TWO_FACTOR_PASS
+      }
+  });
+
+  let info = await transporter.sendMail({
+      from: 'Conversify - OTP Service',
+      to: email,
+      subject: 'Your OTP Code',
+      text: `Conversify OTP Code is: ${token}`
+  });
+
+  console.log('Message sent: %s', info.messageId);
+}
+
 
 export const signup = async (req, res) => {
   try {
@@ -69,6 +93,35 @@ export const signup = async (req, res) => {
   }
 };
 
+export const verifyToken = async (req, res) => {
+  try {
+    const { code, user } = req.body;
+    const profileUser = await User.findById(user).select("-password");
+    if (profileUser.otp == code){
+        res.status(200).json({
+          _id: profileUser._id,
+          firstName: profileUser.firstName,
+          lastName: profileUser.lastName,
+          username: profileUser.username,
+          email: profileUser.email,
+          phoneNumber: profileUser.phoneNumber,
+          gender: profileUser.gender,
+          profilePic: profileUser.profilePic,
+        });
+      }
+    else{
+      res.status(500).json({error: "Incorrect OTP. Please Try Again"})
+    }
+  } catch (error) {
+    console.error("Error in verifyToken: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+
+  
+}
+
+
+
 export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -81,6 +134,17 @@ export const login = async (req, res) => {
     if (!user || !isPasswordCorrect) {
       return res.status(400).json({ error: "Invalid username or password" });
     }
+
+    // // 2 Factor Authentication
+    var secret = speakEasy.generateSecret();
+    var token = speakEasy.totp({
+      secret : secret.base32,
+      encoding : 'base32',
+      step : 10
+    });
+    user.otp = token;
+    user.save()
+    sendOTPEmail(user.email, token)
 
     generateTokenAndSetCookie(user._id, res);
     res.status(200).json({
