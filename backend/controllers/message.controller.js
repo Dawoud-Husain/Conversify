@@ -1,5 +1,6 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
+import User from "../models/user.model.js";  
 import { getReceiverSocketId, io } from "../socket/socket.js";
 
 export const sendMessage = async (req, res) => {
@@ -8,6 +9,19 @@ export const sendMessage = async (req, res) => {
 		const { id: receiverId } = req.params;
 		const senderId = req.user._id;
 
+		//Check if the sender is blocked by the receiver **/
+		const receiver = await User.findById(receiverId);
+		if (receiver?.blockedUsers.includes(senderId)) {
+			return res.status(403).json({ error: "You have been blocked by this user." });
+		}
+
+		//Check if the sender has blocked the receiver **/
+		const sender = await User.findById(senderId);
+		if (sender?.blockedUsers.includes(receiverId)) {
+			return res.status(403).json({ error: "You have blocked this user." });
+		}
+
+		/**Proceed if not blocked **/
 		let conversation = await Conversation.findOne({
 			participants: { $all: [senderId, receiverId] },
 		});
@@ -28,16 +42,12 @@ export const sendMessage = async (req, res) => {
 			conversation.messages.push(newMessage._id);
 		}
 
-		// await conversation.save();
-		// await newMessage.save();
-
-		// this will run in parallel
+		// Save conversation and message in parallel
 		await Promise.all([conversation.save(), newMessage.save()]);
 
-		// SOCKET IO FUNCTIONALITY WILL GO HERE
+		//Notify receiver via Socket.io
 		const receiverSocketId = getReceiverSocketId(receiverId);
 		if (receiverSocketId) {
-			// io.to(<socket_id>).emit() used to send events to specific client
 			io.to(receiverSocketId).emit("newMessage", newMessage);
 		}
 

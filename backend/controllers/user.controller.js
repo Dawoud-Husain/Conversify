@@ -181,3 +181,52 @@ export const addFriend = async (req, res) => {
 		res.status(500).json({ error: "Internal server error" });
 	}
 };
+
+export const blockUser = async (req, res) => {
+  try {
+    const { id: userToBlockId } = req.params;
+    const userId = req.user._id;
+
+    if (userId.toString() === userToBlockId) {
+      return res.status(400).json({ error: "You cannot block yourself." });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    if (!user.blockedUsers.includes(userToBlockId)) {
+      user.blockedUsers.push(userToBlockId);
+      await user.save();
+    }
+
+    res.status(200).json({ message: "User blocked successfully." });
+  } catch (error) {
+    console.error("Error blocking user:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+/**UNBLOCK USER **/
+export const unblockUser = async (req, res) => {
+  try {
+    const { id: userToUnblockId } = req.params;
+    const userId = req.user._id;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    user.blockedUsers = user.blockedUsers.filter(
+      (blockedId) => blockedId.toString() !== userToUnblockId
+    );
+    await user.save();
+
+    res.status(200).json({ message: "User unblocked successfully." });
+  } catch (error) {
+    console.error("Error unblocking user:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

@@ -10,6 +10,7 @@ import { unPinContact } from "../controllers/user.controller.js";
 import { searchUsers } from "../controllers/user.controller.js";
 import { getFriends } from "../controllers/user.controller.js";
 import { addFriend } from "../controllers/user.controller.js";
+import { blockUser, unblockUser } from "../controllers/user.controller.js";
 import { getFriendNotifications } from "../controllers/user.controller.js";
 import { deleteFriendNotifications } from "../controllers/user.controller.js";
 
@@ -28,5 +29,8 @@ router.get("/friendNotifications",protectRoute, getFriendNotifications)
 router.delete("/friendNotifications/:id",protectRoute, deleteFriendNotifications)
 
 router.post("/friends",protectRoute, addFriend)
+router.post("/block/:id", protectRoute, blockUser); 
+router.post("/unblock/:id", protectRoute, unblockUser); 
+
 
 export default router;
