@@ -47,17 +47,17 @@ const MessageContainer = () => {
 
                     {/* Input */}
                     <div className="bg-gray-200 mt-2 px-4 py-3">
-						{replyMsg && (
-							<div className='bg-gray-100 p-3 rounded-lg mb-3 relative'>
-								<button onClick={() => setReplyMsg(null)} className="absolute top-0 right-0 mt-3 mr-3">
-								<AiOutlineClose className="text-xl text-gray-700 hover:text-gray-900" />
-								</button>
-								<div className='flex flex-col gap-2'>
-									<span className='text-gray-500'>{replyMsg.senderId === authUser._id ? "You" : selectedConversation?.firstName + " " + selectedConversation?.lastName}</span>
-									<span className='text-gray-800 font-semibold'>{replyMsg.message}</span>
-								</div>
+					{replyMsg && (
+						<div className='bg-gray-100 p-3 rounded-lg mb-3 relative'>
+							<button onClick={() => setReplyMsg(null)} className="absolute top-0 right-0 mt-3 mr-3">
+							<AiOutlineClose className="text-xl text-gray-700 hover:text-gray-900" />
+                            </button>
+							<div className='flex flex-col gap-2'>
+								<span className='text-gray-500'>{replyMsg.senderId === authUser._id ? "You" : selectedConversation?.firstName + " " + selectedConversation?.lastName}</span>
+								<span className='text-gray-800 font-semibold'>{replyMsg.message}</span>
 							</div>
-						)}
+						</div>
+					)}
                         <MessageInput replyMsg={replyMsg} resetReplyMsg={() => setReplyMsg(null)}/>
                     </div>
                 </>
