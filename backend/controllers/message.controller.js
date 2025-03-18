@@ -1,13 +1,27 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
+import User from "../models/user.model.js";  
 import { getReceiverSocketId, io } from "../socket/socket.js";
 
 export const sendMessage = async (req, res) => {
 	try {
-		const { message, replyMsg } = req.body; // Extract message and replyMsg from req.body
+		const { message } = req.body;
 		const { id: receiverId } = req.params;
 		const senderId = req.user._id;
 
+		//Check if the sender is blocked by the receiver **/
+		const receiver = await User.findById(receiverId);
+		if (receiver?.blockedUsers.includes(senderId)) {
+			return res.status(403).json({ error: "You have been blocked by this user." });
+		}
+
+		//Check if the sender has blocked the receiver **/
+		const sender = await User.findById(senderId);
+		if (sender?.blockedUsers.includes(receiverId)) {
+			return res.status(403).json({ error: "You have blocked this user." });
+		}
+
+		/**Proceed if not blocked **/
 		let conversation = await Conversation.findOne({
 			participants: { $all: [senderId, receiverId] },
 		});
@@ -22,27 +36,22 @@ export const sendMessage = async (req, res) => {
 			senderId,
 			receiverId,
 			message,
-			replyMsg,  // Include replyMsg in the new message
 		});
 
 		if (newMessage) {
 			conversation.messages.push(newMessage._id);
 		}
-		// this will run in parallel
+
+		// Save conversation and message in parallel
 		await Promise.all([conversation.save(), newMessage.save()]);
 
-		// Populate the replyMsg field in the new message
-		await newMessage.populate("replyMsg");
-		const populatedMessage = newMessage;
-
-		// SOCKET IO FUNCTIONALITY WILL GO HERE
+		//Notify receiver via Socket.io
 		const receiverSocketId = getReceiverSocketId(receiverId);
 		if (receiverSocketId) {
-			// io.to(<socket_id>).emit() used to send events to specific client
-			io.to(receiverSocketId).emit("newMessage", populatedMessage);
+			io.to(receiverSocketId).emit("newMessage", newMessage);
 		}
-  
-		res.status(201).json(populatedMessage);
+
+		res.status(201).json(newMessage);
 	} catch (error) {
 		console.log("Error in sendMessage controller: ", error.message);
 		res.status(500).json({ error: "Internal server error" });
@@ -56,13 +65,7 @@ export const getMessages = async (req, res) => {
 
 		const conversation = await Conversation.findOne({
 			participants: { $all: [senderId, userToChatId] },
-		}).populate({
-            path: "messages",
-            populate: {
-                path: "replyMsg",
-                model: "Message",
-            },
-        }); // Populate messages and replyMsg
+		}).populate("messages"); // NOT REFERENCE BUT ACTUAL MESSAGES
 
 		if (!conversation) return res.status(200).json([]);
 
@@ -73,4 +76,37 @@ export const getMessages = async (req, res) => {
 		console.log("Error in getMessages controller: ", error.message);
 		res.status(500).json({ error: "Internal server error" });
 	}
+};
+
+export const reactMessage = async (req, res) => {
+    try {
+        const { reaction_emoji } = req.body;
+        const { id: messageId } = req.params;
+        const currentUserId = req.user._id;
+
+        const message = await Message.findById(messageId);
+        if (!message) {
+            return res.status(404).json({ error: "Message not found" });
+        }
+
+        message.reaction = reaction_emoji;
+        await message.save();
+
+        // Determine receiverId
+        const receiverId = 
+            message.senderId.equals(currentUserId) 
+                ? message.receiverId 
+                : message.senderId;
+
+        // Emit socket event to receiver
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit("newReaction", message);
+        }
+
+        res.status(200).json(message);
+    } catch (error) {
+        console.log("Error in message reaction controller: ", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
 };

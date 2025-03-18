@@ -4,7 +4,7 @@ import MessageSkeleton from "../skeletons/MessageSkeleton";
 import Message from "./Message";
 import useListenMessages from "../../hooks/useListenMessages";
 
-const Messages = ({ setReplyMsg }) => {
+const Messages = () => {
 	const { messages, loading } = useGetMessages();
 	useListenMessages();
 	const lastMessageRef = useRef();
@@ -21,7 +21,7 @@ const Messages = ({ setReplyMsg }) => {
 				messages.length > 0 &&
 				messages.map((message) => (
 					<div key={message._id} ref={lastMessageRef}>
-						<Message message={message} setReplyMsg={setReplyMsg} />
+						<Message message={message} />
 					</div>
 				))}
 
@@ -33,3 +33,26 @@ const Messages = ({ setReplyMsg }) => {
 	);
 };
 export default Messages;
+
+// STARTER CODE SNIPPET
+// import Message from "./Message";
+
+// const Messages = () => {
+// 	return (
+// 		<div className='px-4 flex-1 overflow-auto'>
+// 			<Message />
+// 			<Message />
+// 			<Message />
+// 			<Message />
+// 			<Message />
+// 			<Message />
+// 			<Message />
+// 			<Message />
+// 			<Message />
+// 			<Message />
+// 			<Message />
+// 			<Message />
+// 		</div>
+// 	);
+// };
+// export default Messages;

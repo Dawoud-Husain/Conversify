@@ -16,12 +16,12 @@ const messageSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		// Include replyMsg in the new message
-		replyMsg: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Message",
+
+		reaction: {
+			type: String,
 			required: false,
-		},
+		}
+		
 		// createdAt, updatedAt
 	},
 	{ timestamps: true }

@@ -1,28 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useConversation from "../../zustand/useConversation";
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
 import { TiMessages } from "react-icons/ti";
-import { AiOutlineClose } from "react-icons/ai";
 import { useAuthContext } from "../../context/AuthContext";
 
 const MessageContainer = () => {
 	const { selectedConversation, setSelectedConversation } = useConversation();
-	const [replyMsg, setReplyMsg] = useState(null);
-
-	const { authUser } = useAuthContext();
 
 	useEffect(() => {
-        // Reset replyMsg when selectedConversation changes
-        setReplyMsg(null);
-    }, [selectedConversation]);
-
-    useEffect(() => {
-        // Cleanup function to reset selectedConversation when the component unmounts
-        return () => setSelectedConversation(null);
-    }, [setSelectedConversation]);
-
-	console.log(replyMsg);
+		// cleanup function (unmounts)
+		return () => setSelectedConversation(null);
+	}, [setSelectedConversation]);
 
 	return (
         <div className="flex flex-col h-full w-full">
@@ -42,28 +31,35 @@ const MessageContainer = () => {
 
                     {/* Messages */}
                     <div className="flex-1 overflow-y-auto">
-						<Messages setReplyMsg={setReplyMsg}/>
+                        <Messages />
                     </div>
 
                     {/* Input */}
                     <div className="bg-gray-200 mt-2 px-4 py-3">
-						{replyMsg && (
-							<div className='bg-gray-100 p-3 rounded-lg mb-3 relative'>
-								<button onClick={() => setReplyMsg(null)} className="absolute top-0 right-0 mt-3 mr-3">
-								<AiOutlineClose className="text-xl text-gray-700 hover:text-gray-900" />
-								</button>
-								<div className='flex flex-col gap-2'>
-									<span className='text-gray-500'>{replyMsg.senderId === authUser._id ? "You" : selectedConversation?.firstName + " " + selectedConversation?.lastName}</span>
-									<span className='text-gray-800 font-semibold'>{replyMsg.message}</span>
-								</div>
-							</div>
-						)}
-                        <MessageInput replyMsg={replyMsg} resetReplyMsg={() => setReplyMsg(null)}/>
+                        <MessageInput />
                     </div>
                 </>
             )}
         </div>
     );
+
+	// return (
+	// 	<div className='md:min-w-[450px] flex flex-col'>
+	// 		{!selectedConversation ? (
+	// 			<NoChatSelected />
+	// 		) : (
+	// 			<>
+	// 				{/* Header */}
+	// 				<div className='bg-slate-500 px-4 py-2 mb-2'>
+	// 					<span className='label-text'>To:</span>{" "}
+	// 					<span className='text-gray-900 font-bold'>{selectedConversation.fullName}</span>
+	// 				</div>
+	// 				<Messages />
+	// 				<MessageInput />
+	// 			</>
+	// 		)}
+	// 	</div>
+	// );
 };
 export default MessageContainer;
 
@@ -79,3 +75,24 @@ const NoChatSelected = () => {
 		</div>
 	);
 };
+
+// STARTER CODE SNIPPET
+// import MessageInput from "./MessageInput";
+// import Messages from "./Messages";
+
+// const MessageContainer = () => {
+// 	return (
+// 		<div className='md:min-w-[450px] flex flex-col'>
+// 			<>
+// 				{/* Header */}
+// 				<div className='bg-slate-500 px-4 py-2 mb-2'>
+// 					<span className='label-text'>To:</span> <span className='text-gray-900 font-bold'>John doe</span>
+// 				</div>
+
+// 				<Messages />
+// 				<MessageInput />
+// 			</>
+// 		</div>
+// 	);
+// };
+// export default MessageContainer;
