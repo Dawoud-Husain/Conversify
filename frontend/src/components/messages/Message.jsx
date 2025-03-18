@@ -118,10 +118,6 @@ const Message = ({ message, setReplyMsg }) => {
                 </div>
             )}
 
-            <button onClick={() => setReplyMsg(message)} className="reply-icon">
-                {!fromMe && (<FaReply />)}
-            </button>
-
             {/* Emoji Picker */}
             {showPicker && (
                 <div>
