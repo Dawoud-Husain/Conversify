@@ -3,10 +3,11 @@ import { extractTime } from "../../utils/extractTime";
 import useConversation from "../../zustand/useConversation";
 import useReactMessages from "../../hooks/useReactMessages";
 import useListenReactions from "../../hooks/useListenReactions";
+import { FaReply } from "react-icons/fa6";
 import Picker from "emoji-picker-react";
 import React, { useState } from "react";
 
-const Message = ({ message }) => {
+const Message = ({ message, setReplyMsg }) => {
     useListenReactions();
     const { authUser } = useAuthContext();
     const { selectedConversation } = useConversation();
@@ -39,6 +40,10 @@ const Message = ({ message }) => {
                 </div>
             )}
 
+            <button onClick={() => setReplyMsg(message)} className="reply-icon">
+                {fromMe && (<FaReply />)}
+            </button>
+
             {/* Chat Bubble */}
             {!fromMe && (
                 <div
@@ -51,9 +56,33 @@ const Message = ({ message }) => {
                         padding: "10px 15px",
                     }}
                 >
+                    {message.replyMsg && (
+                        <div
+                            className="reply-msg mt-2 mb-2 p-2 border rounded"
+                            style={{
+                                backgroundColor: message.replyMsg.senderId === authUser._id ? 'var(--darker-yellow)' : 'transparent',
+                                color: message.replyMsg.senderId === authUser._id ? 'var(--light-yellow)' : 'var(--darker-yellow)',
+                                border: '2px solid var(--darker-yellow)',
+                                borderRadius: '10px',
+                                padding: '5px 10px',
+                            }}
+                        >
+                            <span>
+                                {message.replyMsg.senderId === authUser._id
+                                    ? "You: "
+                                    : selectedConversation?.firstName + " " + selectedConversation?.lastName + ": "}
+                            </span>
+                            <span>{message.replyMsg.message}</span>
+                        </div>
+                    )}
+
                     {message.message}
                 </div>
             )}
+
+            <button onClick={() => setReplyMsg(message)} className="reply-icon">
+                {!fromMe && (<FaReply />)}
+            </button>
 
             {fromMe && (
                 <div
@@ -65,9 +94,33 @@ const Message = ({ message }) => {
                         padding: "10px 15px",
                     }}
                 >
+
+                    {message.replyMsg && (
+                        <div
+                            className="reply-msg mt-2 mb-2 p-2 border rounded"
+                            style={{
+                                backgroundColor: message.replyMsg.senderId === authUser._id ? 'var(--darker-yellow)' : 'transparent',
+                                color: message.replyMsg.senderId === authUser._id ? 'var(--light-yellow)' : 'var(--darker-yellow)',
+                                border: '2px solid var(--darker-yellow)',
+                                borderRadius: '10px',
+                                padding: '5px 10px',
+                            }}
+                        >
+                            <span>
+                                {message.replyMsg.senderId === authUser._id
+                                    ? "You: "
+                                    : selectedConversation?.firstName + " " + selectedConversation?.lastName + ": "}
+                            </span>
+                            <span>{message.replyMsg.message}</span>
+                        </div>
+                    )}
                     {message.message}
                 </div>
             )}
+
+            <button onClick={() => setReplyMsg(message)} className="reply-icon">
+                {!fromMe && (<FaReply />)}
+            </button>
 
             {/* Emoji Picker */}
             {showPicker && (
