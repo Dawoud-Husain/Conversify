@@ -33,7 +33,22 @@ A modern real-time chatting application built with the **MERN** (MongoDB, Expres
 
 **Links:**
 - [Sprint Information](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-2/Agile-Coach)
-- [Technical Documentation](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-2) (see content under Sprint 2 header)
+- [Technical Documentation](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-2) (see content under Sprint 3 header)
+
+
+### Sprint 3
+- Reacting to messages with Emojis 😀 
+- Blocking users
+- Specifying replies to specific messages
+- Displaying friends current local time and country
+- Notification system for when a user has been added as a friend
+
+
+**Links:**
+- [Sprint Information](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-3/Agile-Coach)
+- [Technical Documentation](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-3) (see content under Sprint 3 header)
+
+
 
 
 ---
