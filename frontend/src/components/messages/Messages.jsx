@@ -7,6 +7,7 @@ import useListenMessages from "../../hooks/useListenMessages";
 import { useAuthContext } from "../../context/AuthContext";
 
 const lastMessageSentByUser = (messages, id) => {
+	if (!messages || messages.length === 0) return null;
 	return [...messages].findLast((message) => message.senderId === id);
 };
 
@@ -29,7 +30,7 @@ const Messages = () => {
 				messages.length > 0 &&
 				messages.map((message) => (
 					<div key={message._id} ref={lastMessageRef}>
-						<Message message={message} lastMessage={lastMessage._id == message._id} />
+						<Message message={message} lastMessage={lastMessage?._id === message._id || false} />
 					</div>
 				))}
 
