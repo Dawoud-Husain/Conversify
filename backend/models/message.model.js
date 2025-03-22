@@ -16,13 +16,14 @@ const messageSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-
 		reaction: {
 			type: String,
 			required: false,
+		},
+		timeRead: {
+			type: Date,
+			required: false,
 		}
-		
-		// createdAt, updatedAt
 	},
 	{ timestamps: true }
 );

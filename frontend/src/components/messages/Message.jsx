@@ -3,11 +3,13 @@ import { extractTime } from "../../utils/extractTime";
 import useConversation from "../../zustand/useConversation";
 import useReactMessages from "../../hooks/useReactMessages";
 import useListenReactions from "../../hooks/useListenReactions";
+import useListenReadReceipts from "../../hooks/useListenReadReceipts";
 import Picker from "emoji-picker-react";
 import React, { useState } from "react";
 
-const Message = ({ message }) => {
+const Message = ({ message, lastMessage }) => {
     useListenReactions();
+    useListenReadReceipts()
     const { authUser } = useAuthContext();
     const { selectedConversation } = useConversation();
     const { reactMessage, loading } = useReactMessages();
@@ -87,7 +89,9 @@ const Message = ({ message }) => {
             )}
 
             {/* Footer for Time */}
-            <div className="chat-footer opacity-50 text-xs mt-1">{formattedTime}</div>
+            <div className="chat-footer opacity-50 text-xs mt-1">
+                {lastMessage && message.timeRead ? `Read at ${extractTime(message.timeRead)}` : formattedTime}
+            </div>
 
             {/* For "fromMe" messages, place the profile picture on the right */}
             {fromMe && (

@@ -1,13 +1,21 @@
 import { useEffect, useRef } from "react";
 import useGetMessages from "../../hooks/useGetMessages";
 import MessageSkeleton from "../skeletons/MessageSkeleton";
+import { extractTime } from "../../utils/extractTime";
 import Message from "./Message";
 import useListenMessages from "../../hooks/useListenMessages";
+import { useAuthContext } from "../../context/AuthContext";
+
+const lastMessageSentByUser = (messages, id) => {
+	return [...messages].findLast((message) => message.senderId === id);
+};
 
 const Messages = () => {
+	const { authUser } = useAuthContext();
 	const { messages, loading } = useGetMessages();
 	useListenMessages();
 	const lastMessageRef = useRef();
+	const lastMessage = lastMessageSentByUser(messages, authUser?._id);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -21,7 +29,7 @@ const Messages = () => {
 				messages.length > 0 &&
 				messages.map((message) => (
 					<div key={message._id} ref={lastMessageRef}>
-						<Message message={message} />
+						<Message message={message} lastMessage={lastMessage._id == message._id} />
 					</div>
 				))}
 
@@ -32,27 +40,5 @@ const Messages = () => {
 		</div>
 	);
 };
+
 export default Messages;
-
-// STARTER CODE SNIPPET
-// import Message from "./Message";
-
-// const Messages = () => {
-// 	return (
-// 		<div className='px-4 flex-1 overflow-auto'>
-// 			<Message />
-// 			<Message />
-// 			<Message />
-// 			<Message />
-// 			<Message />
-// 			<Message />
-// 			<Message />
-// 			<Message />
-// 			<Message />
-// 			<Message />
-// 			<Message />
-// 			<Message />
-// 		</div>
-// 	);
-// };
-// export default Messages;

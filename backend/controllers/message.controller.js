@@ -71,6 +71,22 @@ export const getMessages = async (req, res) => {
 
 		const messages = conversation.messages;
 
+
+		const message = messages.findLast((message) => message.senderId.equals(userToChatId));
+
+		// Only update last read time 
+		if (message && !message.timeRead) {
+			message.timeRead = new Date();
+			message.save();
+		}
+
+		// Emit socket event to receiver
+		const receiverSocketId = getReceiverSocketId(userToChatId);
+		if (receiverSocketId) {
+			io.to(receiverSocketId).emit("readReceipt", message);
+		}
+	
+
 		res.status(200).json(messages);
 	} catch (error) {
 		console.log("Error in getMessages controller: ", error.message);
