@@ -25,9 +25,16 @@ const messageSchema = new mongoose.Schema(
 		reaction: {
 			type: String,
 			required: false,
-		}
-		
-		// createdAt, updatedAt
+		},
+		// New fields for disappearing messages
+		isDisappearing: {
+			type: Boolean,
+			default: false,
+		},
+		disappearAt: {
+			type: Date,
+			required: false,
+		},
 	},
 	{ timestamps: true }
 );
