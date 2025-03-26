@@ -11,8 +11,9 @@ const lastMessageSentByUser = (messages, id) => {
 	return [...messages].findLast((message) => message.senderId === id);
 };
 
-const Messages = () => {
+const Messages = ({ setReplyMsg }) => {
 	const { authUser } = useAuthContext();
+
 	const { messages, loading } = useGetMessages();
 	useListenMessages();
 	const lastMessageRef = useRef();
@@ -30,7 +31,7 @@ const Messages = () => {
 				messages.length > 0 &&
 				messages.map((message) => (
 					<div key={message._id} ref={lastMessageRef}>
-						<Message message={message} lastMessage={lastMessage?._id === message._id || false} />
+						<Message message={message} lastMessage={lastMessage?._id === message._id || false} setReplyMsg={setReplyMsg} />
 					</div>
 				))}
 
@@ -41,5 +42,5 @@ const Messages = () => {
 		</div>
 	);
 };
-
 export default Messages;
+
