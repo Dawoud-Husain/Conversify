@@ -37,6 +37,7 @@ export const signup = async (req, res) => {
       gender,
       timezone,
       country,
+      language,
     } = req.body;
 
     if (password !== confirmPassword) {
@@ -68,6 +69,7 @@ export const signup = async (req, res) => {
       gender,
       timezone,
       country,
+      language,
       profilePic: gender === "male" ? boyProfilePic : girlProfilePic,
     });
 
@@ -86,6 +88,7 @@ export const signup = async (req, res) => {
         gender: newUser.gender,
         timezone: newUser.timezone,
         country: newUser.country,
+        language: newUser.language,
         profilePic: newUser.profilePic,
       });
     } else {
@@ -110,7 +113,7 @@ export const verifyToken = async (req, res) => {
         email: profileUser.email,
         phoneNumber: profileUser.phoneNumber,
         gender: profileUser.gender,
-
+        language: profileUser.language,
         profilePic: profileUser.profilePic,
       });
     } else {
@@ -156,6 +159,7 @@ export const login = async (req, res) => {
       phoneNumber: user.phoneNumber,
       gender: user.gender,
       profilePic: user.profilePic,
+      language: user.language,
     });
   } catch (error) {
     console.log("Error in login controller", error.message);

@@ -16,6 +16,10 @@ const messageSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    originalMessage: {
+      type: String,
+      required: false,
+    },
     // Include replyMsg in the new message
     replyMsg: {
       type: mongoose.Schema.Types.ObjectId,
