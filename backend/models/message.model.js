@@ -30,7 +30,10 @@ const messageSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-
+    timeRead: {
+      type: Date,
+      required: false,
+    },
     // createdAt, updatedAt
   },
   { timestamps: true }

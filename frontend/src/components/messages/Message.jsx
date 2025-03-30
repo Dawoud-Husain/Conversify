@@ -3,15 +3,17 @@ import { extractTime } from "../../utils/extractTime";
 import useConversation from "../../zustand/useConversation";
 import useReactMessages from "../../hooks/useReactMessages";
 import useListenReactions from "../../hooks/useListenReactions";
+import useListenReadReceipts from "../../hooks/useListenReadReceipts";
 import { FaReply } from "react-icons/fa6";
 import Picker from "emoji-picker-react";
 import React, { useState } from "react";
 
-const Message = ({ message, setReplyMsg }) => {
+const Message = ({ message, lastMessage, setReplyMsg }) => {
   useListenReactions();
+  useListenReadReceipts();
   const { authUser } = useAuthContext();
   const { selectedConversation } = useConversation();
-  const { reactMessage } = useReactMessages();
+  const { reactMessage, loading } = useReactMessages();
   const fromMe = message.senderId === authUser._id;
   const formattedTime = extractTime(message.createdAt);
   const chatClassName = fromMe ? "chat-end" : "chat-start";
@@ -121,6 +123,12 @@ const Message = ({ message, setReplyMsg }) => {
       {/* Reaction */}
       {message.reaction && <div>{message.reaction}</div>}
 
+      {/* Footer for Time */}
+      <div className="chat-footer opacity-50 text-xs mt-1">
+        {lastMessage && message.timeRead
+          ? `Read at ${extractTime(message.timeRead)}`
+          : formattedTime}
+      </div>
       {/* Footer */}
       <div className="chat-footer opacity-50 text-xs mt-1">{formattedTime}</div>
 

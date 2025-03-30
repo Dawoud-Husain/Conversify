@@ -13,6 +13,14 @@ const useConversation = create((set) => ({
                 state.messages[messageIndex].reaction = updatedMessage.reaction;
             }
         })),
+    readReceipt: (updatedMessage) => 
+        set(produce((state) => {
+            const messageIndex = state.messages.findIndex((msg) => msg._id === updatedMessage._id);
+            if (messageIndex !== -1) {
+                state.messages[messageIndex].timeRead = updatedMessage.timeRead;
+            }
+        })),
+    
 }));
 
 export default useConversation;
