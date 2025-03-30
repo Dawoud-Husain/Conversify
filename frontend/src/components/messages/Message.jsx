@@ -130,7 +130,7 @@ const Message = ({ message, lastMessage, setReplyMsg }) => {
           : formattedTime}
       </div>
       {/* Footer */}
-      <div className="chat-footer opacity-50 text-xs mt-1">{formattedTime}</div>
+      {/* <div className="chat-footer opacity-50 text-xs mt-1">{formattedTime}</div> */}
 
       {/* Sender Profile Pic */}
       {fromMe && (
