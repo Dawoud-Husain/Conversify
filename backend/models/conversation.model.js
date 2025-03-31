@@ -15,6 +15,13 @@ const conversationSchema = new mongoose.Schema(
 				default: [],
 			},
 		],
+		todolist: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Todo",
+				default: [],
+			},
+		],
 	},
 	{ timestamps: true }
 );
