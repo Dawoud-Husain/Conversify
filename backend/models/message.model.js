@@ -16,13 +16,29 @@ const messageSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-
+		// Include replyMsg in the new message
+		replyMsg: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Message",
+			required: false,
+		},
 		reaction: {
 			type: String,
 			required: false,
-		}
-		
-		// createdAt, updatedAt
+		},
+		timeRead: {
+			type: Date,
+			required: false,
+		},
+		// New fields for disappearing messages
+		isDisappearing: {
+			type: Boolean,
+			default: false,
+		},
+		disappearAt: {
+			type: Date,
+			required: false,
+		},
 	},
 	{ timestamps: true }
 );

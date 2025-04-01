@@ -57,9 +57,9 @@ const userSchema = new mongoose.Schema(
       required: false,
       unique: false,
     },
-    languages: {
+    language: {
       type: String,
-      required: false,
+      required: true,
       unique: false,
     },
     pinnedContacts: [
@@ -80,13 +80,13 @@ const userSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
-		blockedUsers: [
+    blockedUsers: [
       {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-          default: [],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: [],
       },
-  ],
+    ],
 
     otp: { type: String },
   },

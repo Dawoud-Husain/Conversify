@@ -3,8 +3,10 @@ import GenderCheckbox from "./GenderCheckbox";
 import { useState, useEffect } from "react";
 import useSignup from "../../hooks/useSignup";
 import useGeoLocation from "react-ipgeolocation";
+import useGetLanguages from "../../hooks/useGetLanguages";
 
 const SignUp = () => {
+  const { languages, loading: languagesLoading } = useGetLanguages();
   const [inputs, setInputs] = useState({
     firstName: "",
     lastName: "",
@@ -16,6 +18,7 @@ const SignUp = () => {
     gender: "",
     timezone: "UTC",
     country: "unknown",
+    language: "en", // default to English
   });
 
   const { loading, signup } = useSignup();
@@ -47,7 +50,7 @@ const SignUp = () => {
       >
         Conversify
       </h1>
-      <br></br>
+      <br />
       <div
         className="w-full p-6 rounded-lg shadow-2xl bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0"
         style={{ backgroundColor: "#EEEEEE" }}
@@ -61,7 +64,7 @@ const SignUp = () => {
         >
           Sign Up
         </h1>
-        <br></br>
+        <br />
 
         <form onSubmit={handleSubmit}>
           <div>
@@ -83,6 +86,7 @@ const SignUp = () => {
               }
             />
           </div>
+
           <div>
             <label className="label p-2">
               <span
@@ -102,6 +106,7 @@ const SignUp = () => {
               }
             />
           </div>
+
           <div>
             <label className="label p-2">
               <span
@@ -119,6 +124,7 @@ const SignUp = () => {
               onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
             />
           </div>
+
           <div>
             <label className="label p-2">
               <span
@@ -138,6 +144,7 @@ const SignUp = () => {
               }
             />
           </div>
+
           <div>
             <label className="label p-2">
               <span
@@ -157,6 +164,7 @@ const SignUp = () => {
               }
             />
           </div>
+
           <div>
             <label className="label">
               <span
@@ -176,6 +184,7 @@ const SignUp = () => {
               }
             />
           </div>
+
           <div>
             <label className="label">
               <span
@@ -194,6 +203,36 @@ const SignUp = () => {
                 setInputs({ ...inputs, confirmPassword: e.target.value })
               }
             />
+          </div>
+
+          {/* Language Dropdown */}
+          <div>
+            <label className="label p-2">
+              <span
+                className="text-base label-text"
+                style={{ color: "var(--darker-yellow)" }}
+              >
+                Preferred Language
+              </span>
+            </label>
+            {languagesLoading ? (
+              <p className="text-sm text-gray-500">Loading languages...</p>
+            ) : (
+              <select
+                className="w-full input input-bordered h-10 custom-input"
+                value={inputs.language}
+                onChange={(e) =>
+                  setInputs((prev) => ({ ...prev, language: e.target.value }))
+                }
+              >
+                <option value="">Select a language</option>
+                {languages.map((lang) => (
+                  <option key={lang.language} value={lang.language}>
+                    {lang.name}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
 
           <GenderCheckbox
@@ -226,4 +265,5 @@ const SignUp = () => {
     </div>
   );
 };
+
 export default SignUp;

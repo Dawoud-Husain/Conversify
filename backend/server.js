@@ -8,6 +8,8 @@ import messageRoutes from "./routes/message.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import profilePictureRoutes from "./routes/profile.picture.routes.js";
 import conversationRoutes from "./routes/conversations.routes.js";
+import languageRoutes from "./routes/language.routes.js";
+import todoRoutes from "./routes/todos.routes.js";
 
 import connectToMongoDB from "./db/connectToMongoDB.js";
 import { app, server } from "./socket/socket.js";
@@ -25,7 +27,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/profile/picture", profilePictureRoutes);
+app.use("/api/conversations", conversationRoutes);
+app.use("/api/", languageRoutes);
 app.use ("/api/conversations", conversationRoutes);
+app.use("/api/todos", todoRoutes);
 
 app.use(express.static(path.join(__dirname, "/frontend/dist")));
 

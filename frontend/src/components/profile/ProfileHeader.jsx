@@ -27,6 +27,7 @@ const ProfileHeader = ({ profile }) => {
 
       <p className="text-gray-600 text-lg">@{profile.username}</p>
       <LiveTimeDisplay timeZone={profile.timezone} />
+      <p className="text-gray-600 text-sm">{profile.country}</p>
 
       {/* <div className="mt-4 flex space-x-4">
         <button className="px -6 py-3 bg-yellow-200 text-gray-900 font-semibold rounded-md" />

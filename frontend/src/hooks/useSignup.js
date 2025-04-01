@@ -17,6 +17,7 @@ const useSignup = () => {
     gender,
     timezone,
     country,
+    language,
   }) => {
     const success = handleInputErrors({
       firstName,
@@ -29,6 +30,7 @@ const useSignup = () => {
       gender,
       timezone,
       country,
+      language,
     });
     if (!success) return;
 
@@ -48,6 +50,7 @@ const useSignup = () => {
           gender,
           timezone,
           country,
+          language,
         }),
       });
 
@@ -79,6 +82,7 @@ function handleInputErrors({
   gender,
   timezone,
   country,
+  language,
 }) {
   if (
     !firstName ||
@@ -90,7 +94,8 @@ function handleInputErrors({
     !confirmPassword ||
     !gender ||
     !timezone ||
-    !country
+    !country ||
+    !language
   ) {
     toast.error("Please fill in all fields");
     return false;
