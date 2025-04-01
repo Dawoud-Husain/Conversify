@@ -48,7 +48,15 @@ A modern real-time chatting application built with the **MERN** (MongoDB, Expres
 - [Sprint Information](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-3/Agile-Coach)
 - [Technical Documentation](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-3) (see content under Sprint 3 header)
 
+### Sprint 4
+- Live translation of messages 
+- Shared Todolists
+- Live read-receipts (Know when your message was received)
+- Disappearing messages (Have the option to keep your chats private)
 
+**Links:**
+- [Sprint Information](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-4/Agile-Coach)
+- [Technical Documentation](https://gitlab.socs.uoguelph.ca/cis4250-chatapp/chatapp/-/wikis/Sprint-4) (see content under Sprint 4 header)
 
 
 ---
