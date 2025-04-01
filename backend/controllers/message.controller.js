@@ -139,7 +139,7 @@ const cleanupExpiredMessages = async () => {
 };
 
 // Run cleanup every minute
-setInterval(cleanupExpiredMessages, 60000);
+setInterval(cleanupExpiredMessages, 300000);
 
 export const sendMessage = async (req, res) => {
 	try {
@@ -170,6 +170,20 @@ export const sendMessage = async (req, res) => {
 			});
 		}
 
+		if (isDisappearing) {
+			setTimeout(async () => {
+				await Message.findByIdAndDelete(newMessage._id);
+		
+				// Emit event to both sender & receiver so it disappears instantly
+				io.to(receiverSocketId).emit("messageDeleted", newMessage._id);
+				const senderSocketId = getReceiverSocketId(senderId); // Get sender's socket
+				if (senderSocketId) {
+					io.to(senderSocketId).emit("messageDeleted", newMessage._id);
+				}
+			}, 300000);
+		}
+		
+
 		// Create new message with disappearing logic
 		const newMessage = new Message({
 			senderId,
@@ -177,7 +191,7 @@ export const sendMessage = async (req, res) => {
 			message,
 			replyMsg,
 			isDisappearing,
-			disappearAt: isDisappearing ? new Date(Date.now() + 60000) : null, // Disappear after 1 minute
+			disappearAt: isDisappearing ? new Date(Date.now() + 300000) : null, // Disappear after 1 minute
 		});
 
 		if (newMessage) {

@@ -5,22 +5,55 @@ import useReactMessages from "../../hooks/useReactMessages";
 import useListenReactions from "../../hooks/useListenReactions";
 import { FaReply } from "react-icons/fa6";
 import Picker from "emoji-picker-react";
-import React, { useState } from "react";
+// import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Message = ({ message, setReplyMsg }) => {
     useListenReactions();
     const { authUser } = useAuthContext();
     const { selectedConversation } = useConversation();
-    const { reactMessage, loading } = useReactMessages();
+    const { reactMessage } = useReactMessages();
     const fromMe = message.senderId === authUser._id;
     const formattedTime = extractTime(message.createdAt);
     const chatClassName = fromMe ? "chat-end" : "chat-start";
     const profilePic = fromMe ? authUser.profilePic : selectedConversation?.profilePic;
     const [showPicker, setShowPicker] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(null);
 
-    const bubbleStyle = fromMe
-        ? { backgroundColor: 'var(--light-yellow)', color: 'var(--darker-yellow)', borderRadius: '15px' }
-        : { border: '2px solid var(--darker-yellow)', color: 'var(--darker-yellow)', backgroundColor: 'transparent', borderRadius: '15px' };
+    // Disappearing message styles
+	const disappearingStyle = {
+		border: "2px dashed red",
+		backgroundColor: "#ffeeee",
+		color: "red",
+		position: "relative",
+	};
+
+    // const bubbleStyle = fromMe
+    //     ? { backgroundColor: 'var(--light-yellow)', color: 'var(--darker-yellow)', borderRadius: '15px' }
+    //     : { border: '2px solid var(--darker-yellow)', color: 'var(--darker-yellow)', backgroundColor: 'transparent', borderRadius: '15px' };
+
+    const regularStyle = {
+		backgroundColor: fromMe ? "var(--light-yellow)" : "transparent",
+		color: "var(--darker-yellow)",
+		borderRadius: "15px",
+		border: fromMe ? "none" : "2px solid var(--darker-yellow)",
+	};
+
+	// Handle disappearing message countdown
+	useEffect(() => {
+		if (message.isDisappearing) {
+			const expiryTime = new Date(message.disappearAt).getTime();
+			const interval = setInterval(() => {
+				const now = new Date().getTime();
+				const remainingTime = Math.max(0, Math.floor((expiryTime - now) / 1000));
+				setTimeLeft(remainingTime);
+
+				if (remainingTime === 0) clearInterval(interval);
+			}, 1000);
+
+			return () => clearInterval(interval);
+		}
+	}, [message.isDisappearing, message.disappearAt]);
 
     const onEmojiClick = async (event, emojiObject) => {
         await reactMessage(message._id, emojiObject.emoji); // Send the reaction to the backend
@@ -50,7 +83,8 @@ const Message = ({ message, setReplyMsg }) => {
                     onClick={() => setShowPicker((val) => !val)} // Toggle the picker on message click
                     className="message-text chat-bubble"
                     style={{
-                        ...bubbleStyle,
+                        // ...bubbleStyle,
+                        ...(message.isDisappearing ? disappearingStyle : regularStyle),
                         maxWidth: "75%", // Allow bubbles to take up to 75% of the container width
                         wordWrap: "break-word", // Handle long text wrapping
                         padding: "10px 15px",
@@ -73,6 +107,12 @@ const Message = ({ message, setReplyMsg }) => {
                                     : selectedConversation?.firstName + " " + selectedConversation?.lastName + ": "}
                             </span>
                             <span>{message.replyMsg.message}</span>
+                        </div>
+                    )}
+                    
+                    {message.isDisappearing && timeLeft > 0 && (
+                        <div className="text-xs font-semibold absolute top-0 right-2 text-red-600">
+                            ⏳ {timeLeft}s
                         </div>
                     )}
 
@@ -84,11 +124,12 @@ const Message = ({ message, setReplyMsg }) => {
                 {!fromMe && (<FaReply />)}
             </button>
 
+            {/* Chat Bubble */}
             {fromMe && (
                 <div
                     className="message-text chat-bubble"
                     style={{
-                        ...bubbleStyle,
+                        ...(message.isDisappearing ? disappearingStyle : regularStyle),
                         maxWidth: "75%", // Allow bubbles to take up to 75% of the container width
                         wordWrap: "break-word", // Handle long text wrapping
                         padding: "10px 15px",
@@ -114,6 +155,13 @@ const Message = ({ message, setReplyMsg }) => {
                             <span>{message.replyMsg.message}</span>
                         </div>
                     )}
+                    
+                    {message.isDisappearing && timeLeft > 0 && (
+                        <div className="text-xs font-semibold absolute top-0 right-2 text-red-600">
+                            ⏳ {timeLeft}s
+                        </div>
+                    )}
+
                     {message.message}
                 </div>
             )}

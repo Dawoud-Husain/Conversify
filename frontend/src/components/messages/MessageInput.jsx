@@ -1,87 +1,13 @@
-// import { useState } from "react";
-// import { BsSend } from "react-icons/bs";
-// import useSendMessage from "../../hooks/useSendMessage";
-
-// const MessageInput = () => {
-// 	const [message, setMessage] = useState("");
-// 	const { loading, sendMessage } = useSendMessage();
-
-// 	const handleSubmit = async (e) => {
-// 		e.preventDefault();
-// 		if (!message) return;
-// 		await sendMessage(message);
-// 		setMessage("");
-// 	};
-
-// 	return (
-//         <form onSubmit={handleSubmit}>
-//             <div className="w-full relative">
-//                 <input
-//                     type="text"
-//                     className="border text-sm rounded-lg block w-full p-2.5 bg-gray-100 border-gray-300 text-gray-700 placeholder-gray-500"
-//                     placeholder="Send a message"
-//                     value={message}
-//                     onChange={(e) => setMessage(e.target.value)}
-//                 />
-//                 <button
-//                     type="submit"
-//                     className="absolute inset-y-0 end-0 flex items-center pe-3 text-gray-600 hover:text-gray-800"
-//                 >
-//                     {loading ? <div className="loading loading-spinner"></div> : <BsSend />}
-//                 </button>
-//             </div>
-//         </form>
-//     );
-
-
-	// return (
-	// 	<form className='px-4 my-3' onSubmit={handleSubmit}>
-	// 		<div className='w-full relative'>
-	// 			<input
-	// 				type='text'
-	// 				className='border text-sm rounded-lg block w-full p-2.5  bg-gray-700 border-gray-600 text-white'
-	// 				placeholder='Send a message'
-	// 				value={message}
-	// 				onChange={(e) => setMessage(e.target.value)}
-	// 			/>
-	// 			<button type='submit' className='absolute inset-y-0 end-0 flex items-center pe-3'>
-	// 				{loading ? <div className='loading loading-spinner'></div> : <BsSend />}
-	// 			</button>
-	// 		</div>
-	// 	</form>
-	// );
-//};
-//export default MessageInput;
-
-// STARTER CODE SNIPPET
-// import { BsSend } from "react-icons/bs";
-
-// const MessageInput = () => {
-// 	return (
-// 		<form className='px-4 my-3'>
-// 			<div className='w-full'>
-// 				<input
-// 					type='text'
-// 					className='border text-sm rounded-lg block w-full p-2.5  bg-gray-700 border-gray-600 text-white'
-// 					placeholder='Send a message'
-// 				/>
-// 				<button type='submit' className='absolute inset-y-0 end-0 flex items-center pe-3'>
-// 					<BsSend />
-// 				</button>
-// 			</div>
-// 		</form>
-// 	);
-// };
-// export default MessageInput;
 
 
 import { useState } from "react";
-import { BsSend } from "react-icons/bs";
+import { BsSend, BsClockHistory } from "react-icons/bs";
 import useSendMessage from "../../hooks/useSendMessage";
 import useConversation from "../../zustand/useConversation";
 
 const MessageInput = ({ replyMsg, resetReplyMsg }) => {
 	const [message, setMessage] = useState("");
+	const [isDisappearing, setIsDisappearing] = useState(false);
 	const { loading, sendMessage } = useSendMessage();
 	const { selectedConversation } = useConversation();
 
@@ -92,40 +18,58 @@ const MessageInput = ({ replyMsg, resetReplyMsg }) => {
 		e.preventDefault();
 		if (!message) return;
 
-		const messageAndReply = {
-            message,
-            replyMsg: replyMsg ? replyMsg._id : null, // Include replyMsg if it exists
-        };
+		if (isDisappearing) {
+			const confirmSend = window.confirm("This message will disappear in 5 minutes. Send it?");
+			if (!confirmSend) return;
+		}
 
-		console.log(messageAndReply);
-		await sendMessage(messageAndReply);
+		const messageData = {
+			message,
+			replyMsg: replyMsg ? replyMsg._id : null,
+			isDisappearing, // Include disappearing flag
+		};
+
+		await sendMessage(messageData);
 		setMessage("");
 		resetReplyMsg();
+		setIsDisappearing(false); // Reset toggle after sending
 	};
 
 	return (
-        <form onSubmit={handleSubmit}>
-            <div className="w-full relative">
-				<div className='w-full relative'>
-					<input
-						type="text"
-						className="border text-sm rounded-lg block w-full p-2.5 bg-gray-100 border-gray-300 text-gray-700 placeholder-gray-500"
-						placeholder={isBlocked ? "You can't send messages to this user" : "Send a message"}
-						value={message}
-						onChange={(e) => setMessage(e.target.value)}
-						disabled={isBlocked} 
-					/>
-					<button
-						type="submit"
-						className="absolute inset-y-0 end-0 flex items-center pe-3 text-gray-600 hover:text-gray-800"
-						disabled={isBlocked || loading} 
-					>
-						{loading ? <div className="loading loading-spinner"></div> : <BsSend />}
-					</button>
-				</div>
-            </div>
-        </form>
-    );
+		<form onSubmit={handleSubmit} className="w-full">
+			<div className="relative flex items-center gap-2 bg-gray-100 border border-gray-300 rounded-lg p-2.5">
+				{/* Input field */}
+				<input
+					type="text"
+					className="flex-1 bg-transparent text-sm text-gray-700 placeholder-gray-500 focus:outline-none"
+					placeholder={isBlocked ? "You can't send messages to this user" : "Send a message"}
+					value={message}
+					onChange={(e) => setMessage(e.target.value)}
+					disabled={isBlocked}
+				/>
+
+				{/* Disappearing Message Toggle */}
+				<button
+					type="button"
+					className={`p-2 rounded-lg transition ${
+						isDisappearing ? "bg-red-500 text-white" : "bg-gray-200 text-gray-600"
+					}`}
+					onClick={() => setIsDisappearing(!isDisappearing)}
+				>
+					<BsClockHistory />
+				</button>
+
+				{/* Send Button */}
+				<button
+					type="submit"
+					className="p-2 text-gray-600 hover:text-gray-800"
+					disabled={isBlocked || loading}
+				>
+					{loading ? <div className="loading loading-spinner"></div> : <BsSend />}
+				</button>
+			</div>
+		</form>
+	);
 };
 
 export default MessageInput;
