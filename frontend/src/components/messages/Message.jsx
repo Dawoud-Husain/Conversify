@@ -9,11 +9,12 @@ import Picker from "emoji-picker-react";
 // import React, { useState } from "react";
 import React, { useState, useEffect } from "react";
 
-const Message = ({ message, setReplyMsg }) => {
+const Message = ({ message, lastMessage, setReplyMsg }) => {
     useListenReactions();
+    useListenReadReceipts();
     const { authUser } = useAuthContext();
     const { selectedConversation } = useConversation();
-    const { reactMessage } = useReactMessages();
+    const { reactMessage, loading } = useReactMessages();
     const fromMe = message.senderId === authUser._id;
     const formattedTime = extractTime(message.createdAt);
     const chatClassName = fromMe ? "chat-end" : "chat-start";
@@ -128,11 +129,11 @@ const Message = ({ message, setReplyMsg }) => {
             </div>
           )}
                     
-                    {message.isDisappearing && timeLeft > 0 && (
-                        <div className="text-xs font-semibold absolute top-0 right-2 text-red-600">
-                            ⏳ {timeLeft}s
-                        </div>
-                    )}
+            {message.isDisappearing && timeLeft > 0 && (
+                <div className="text-xs font-semibold absolute top-0 right-2 text-red-600">
+                    ⏳ {timeLeft}s
+                </div>
+            )}
           {message.displayedText}
         </div>
       )}

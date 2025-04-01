@@ -74,9 +74,12 @@ export const sendMessage = async (req, res) => {
 		const newMessage = new Message({
 			senderId,
 			receiverId,
-			message,
-			replyMsg,  // Include replyMsg in the new message
-		});
+			message: isTranslationNeeded ? translatedMessage : message,
+			originalMessage: isTranslationNeeded ? message : undefined,
+			replyMsg,
+			isDisappearing,
+			disappearAt: isDisappearing ? new Date(Date.now() + 300000) : null, // Disappear after 15minutes
+		});  
 
     if (newMessage) {
       conversation.messages.push(newMessage._id);

@@ -26,6 +26,10 @@ const messageSchema = new mongoose.Schema(
 			type: String,
 			required: false,
 		},
+		timeRead: {
+			type: Date,
+			required: false,
+		},
 		// New fields for disappearing messages
 		isDisappearing: {
 			type: Boolean,

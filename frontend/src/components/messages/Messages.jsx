@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import useGetMessages from "../../hooks/useGetMessages";
 import MessageSkeleton from "../skeletons/MessageSkeleton";
+import { extractTime } from "../../utils/extractTime";
 import Message from "./Message";
 import useListenMessages from "../../hooks/useListenMessages";
 import { useAuthContext } from "../../context/AuthContext";
