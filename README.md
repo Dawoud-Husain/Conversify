@@ -4,8 +4,7 @@
 
 Conversify is a modern, real-time chatting application built with the MERN (MongoDB, Express, React, Node.js) stack, featuring live translation and a variety of interactive communication tools.
 
-[![Watch the Demo Video]((https://img.youtube.com/vi/BYgusLCh9oY/0.jpg)](https://youtu.be/BYgusLCh9oY)
-
+[![Watch the Demo Video](https://img.youtube.com/vi/BYgusLCh9oY/0.jpg)](https://youtu.be/BYgusLCh9oY)
 ---
 
 ## ✨ Features
